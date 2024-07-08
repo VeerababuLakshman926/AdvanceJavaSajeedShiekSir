@@ -603,9 +603,9 @@ public class Client {
 
 # 2. Constructor Injection:
 
-* Value as element, Value as attribute, pcname Space
-* object reference c name space
+* Value as element, Value as attribute, pc name Space
 * List, Set, Map, Properties
+* object reference c name space
 
 # 3. Inner Beans:
 
