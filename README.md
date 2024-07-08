@@ -773,7 +773,7 @@ public class Client {
 
 ```
 
-**Example - Value as an attribute**
+**Example - Value as an attribute**  
 Small changes need to be done in the applicationContext.xml file.  
 we are providing value as an attribute rather than element
 ```
@@ -791,7 +791,7 @@ we are providing value as an attribute rather than element
 </beans>
 ```
 
-**Example - Pname space**
+**Example - Pname space**   
 Small changes need to be done in the applicationContext.xml file  
 we are providing value as a pname rather than element.
 we also add the pname space in the name spaces ``` xmlns:p="http://www.springframework.org/schema/p ```
