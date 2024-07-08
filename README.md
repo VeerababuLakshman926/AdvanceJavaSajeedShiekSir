@@ -354,8 +354,14 @@ public class Client {
 }
 
 ```
+* Yes, the provided code exhibits tight coupling between the MessageSender class and SMSService class and EmailService class.
+* Tight coupling refers to a situation where one class is directly dependent on the implementation details of another class.
+* In this case, MessageSender directly creates instance of SMSService and EmailService with in its own implementation.
+* This means that if you ever want to change the way messages are sent via SMS or email, you would need to modify the MessageSender class, which violates the principle of seperation of concerns and makes the code less flexible and harder to maintain.
 
 # Loose Coupling : minimal dependency between class objects
+* To achieve loose coupling, you can introduce an interface called MessageService, which both SMSService and EmailService will implement
+* Here's how you can refactor the code
 ```
 package com.dl.looseCoupling;
 
@@ -419,6 +425,9 @@ public class Client {
 }
 
 ```
+* With this refactoring, MessageSender no longer directly creates instances of SMSService and EmailService.
+* Instead, it depends on the MessageService interface.
+* This allows you to easily swap implementation by passing different implementations of MessageService to MessageSender, promoting flexibility and maintainability.
 
 # Program with no dependency Injection
 
