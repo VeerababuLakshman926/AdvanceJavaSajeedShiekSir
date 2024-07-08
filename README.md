@@ -639,7 +639,7 @@ public class Client {
 * object reference
 * dcheck
 
-# Setter Injection 
+# 1. Injection Primitive types:
 
 **Example - Value as a type**
 * POM.xml
