@@ -23,9 +23,15 @@ Advance Java
 * Spring config is an XML file
 * This file contains class information and describes how these classes are configured and introduced to each other.
 ```
-<beans namespaces... >
-<bean class="com.dl.Bile" id="Bike"></bean>
-<bean class="com.dl.car" id="Car"></bean>
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"> 
+   
+   <bean class="com.dl.dependency.Car" id="cars"></bean>
+   <bean class="com.dl.dependency.Bike" id="bikes"></bean>
+   
 </beans>
 
 ```
