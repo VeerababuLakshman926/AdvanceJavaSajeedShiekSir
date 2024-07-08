@@ -54,7 +54,7 @@ Advance Java
 * BeanFactory is the basic container, where as Application Context is the advanced container
 * Application Context extends the BeanFactory interface
 * The Application context interface is part of the org.springframework.context package in Spring framework
-* import org.springframework.context.ApplicationContext
+* ``` import org.springframework.context.ApplicationContext ```
 * Application context provides more facilities than BeanFactory such as integration withe Spring AOP, message resource handling for i18n etc..
 
 # What is POJO Class?
