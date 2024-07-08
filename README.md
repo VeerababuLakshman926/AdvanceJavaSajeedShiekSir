@@ -608,7 +608,143 @@ public class Client {
 * Properties
 
 # 3. Object Reference:
-* <Reference>
+* <Reference> type
+
+# Setter Injection 
+* Value as a type
+
+# Example
+* POM.xml
+```
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.dl</groupId>
+  <artifactId>Spring_setterInjection</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Spring_setterInjection</name>
+  <description>Spring_setterInjection</description>
+  
+  <dependencies>
+  	<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-core</artifactId>
+	    <version>5.3.34</version>
+	</dependency>
+	
+	
+	<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-context</artifactId>
+	    <version>5.3.34</version>
+	</dependency>
+
+  </dependencies>
+</project>
+```
+* applicationContext.xml
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+       
+	     <bean class="com.dl.ValueAsElement.Honda" name="honda">
+	     	<property name="vno"><value>8765</value></property>
+	     	<property name="vname"><value>Honda City</value></property>
+	     </bean>
+
+</beans>
+```
+
+```
+package com.dl.ValueAsElement;
+
+//Pojo class
+public class Honda {
+
+	private int vno;
+	private String vname;
+	
+	public Honda() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public int getVno() {
+		return vno;
+	}
+
+	public void setVno(int vno) {
+		this.vno = vno;
+	}
+
+	public String getVname() {
+		return vname;
+	}
+
+	public void setVname(String vname) {
+		this.vname = vname;
+	}
+
+	
+	
+	
+}
+
+```
+```
+
+package com.dl.ValueAsElement;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
+
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+
+public class Client {
+
+
+
+	public static void main(String[] args) {
+		
+		ApplicationContext context =  new ClassPathXmlApplicationContext("com/dl/ValueAsElement/applicationContext.xml");
+		//Honda honda = (Honda) context.getBean("honda"); 
+		//the above and below both commands are same but it is adivisable to use below one. 
+		// the above will give ClassCastException if the retrieved bean is not honda class type
+		// the below one will give BeanNotOfRequiredTypeException if the retrieved bean is not honda class type
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println("Vehicle Name is " + honda.getVname());
+		System.out.println("Vehicle No is " + honda.getVno());
+//		context.close();
+		
+		//Relative path
+//		Resource resource = new ClassPathResource("com/dl/ValueAsElement/applicationContext.xml");
+//		BeanFactory factory = new XmlBeanFactory(resource);
+//		Honda honda = factory.getBean("honda", Honda.class);
+//		System.out.println("Vehicle Name is " + honda.getVname());
+//		System.out.println("Vehicle No is " + honda.getVno());
+		
+		//absolute path
+//		FileSystemResource resource = new FileSystemResource("D:\\coding\\4.advanceJava\\advanceJava Sajeed/applicationContext.xml");
+//		BeanFactory factory = new XmlBeanFactory(resource);
+//		Honda honda = factory.getBean("honda", Honda.class);
+//		System.out.println("Vehicle Name is " + honda.getVname());
+//		System.out.println("Vehicle No is " + honda.getVno());
+//		
+	}
+}
+
+
+```
+
 
 
 
