@@ -594,12 +594,40 @@ public class Client {
 
 5. Bean Retrieval: The ClassPathXmlApplicationContext (from spring-context) allows the application to retrieve the cars, bikes beans and use it.
 
+# Types of injection:
+# 1.Setter Injection:
+
+* Value as element, Value as attribute, pname Space
+* List, Set, Map, Properties
+* object reference, dcheck
+
+# 2. Constructor Injection:
+
+* Value as element, Value as attribute, pcname Space
+* object reference c name space
+* List, Set, Map, Properties
+
+# 3. Inner Beans:
+
+* setter injection and constructor injection and inner bean ref tag
+
+# 4. Autowiring:
+
+* byName: property name and bean name must be same
+* byType: property name and bean name can be different
+* cons: constructor mode inject the dependency by calling the constructor of the class, it calls the constructor having large number of parameters
+* no: by default it no, it is not autowired
+* autodetect : deprecated in spring 3
+
+# 5. Bean Scopes:
+
+
 # Setter Injection 
 * Can be categorized into three types.
 # 1. Injection Primitive types: 
 * Value as element
 * Value as attribute
-* P schema P Name Space
+* pname Space
 
 # 2. Injection Collection Types:
 * List
@@ -608,7 +636,8 @@ public class Client {
 * Properties
 
 # 3. Object Reference:
-* <Reference> type
+* object reference
+* dcheck
 
 # Setter Injection 
 
@@ -742,6 +771,40 @@ public class Client {
 }
 
 
+```
+
+**Example - Value as an attribute**
+Small changes need to be done in the applicationContext.xml file
+we are providing value as an attribute rather than element
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+       
+	     <bean class="com.dl.ValueAsAttribute.Honda" name="honda">
+	     	<property name="vno" value="8765"></property>
+	     	<property name="vname" value="Honda City"></property>
+	     </bean>
+
+</beans>
+```
+
+**Example - Pname space**
+Small changes need to be done in the applicationContext.xml file
+we are providing value as a pname rather than value
+we also add the pname space in the name spaces ``` xmlns:p="http://www.springframework.org/schema/p ```
+```
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p">
+       
+	     <bean class="com.dl.ValueAsPnameSpace.Honda" name="honda" p:vno="9876" p:vname="Honda City"/>
+
+</beans>
 ```
 
 
