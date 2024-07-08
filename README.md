@@ -807,6 +807,275 @@ we also add the pname space in the name spaces ``` xmlns:p="http://www.springfra
 </beans>
 ```
 
+# 2. Injection Collection Types:
+
+**Example - List**
+
+```
+package com.dl.list;
+
+import java.util.List;
+
+//Pojo class
+public class Honda {
+
+	private String sname;
+	private List<String> models;
+	
+	public Honda() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getSname() {
+		return sname;
+	}
+
+	public void setSname(String sname) {
+		this.sname = sname;
+	}
+
+	public List<String> getModels() {
+		return models;
+	}
+
+	public void setModels(List<String> models) {
+		this.models = models;
+	}
+}
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       >
+       
+	     <bean class="com.dl.list.Honda" name="honda" >
+	     	<property name="sname">
+	     		<value>Fortune Honda</value>
+	     	</property>
+	     	<property name="models">
+	     		<list>
+	     			<value>Honda City</value>
+	     			<value>Honda Accord</value>
+	     			<value>Honda Civic</value>
+	     			<value>Honda City</value>
+	     		</list>
+	     	</property>
+	     </bean>
+
+</beans>
+```
+
+```
+package com.dl.list;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+
+
+public class Client {
+
+
+
+	public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context =  new ClassPathXmlApplicationContext("com/dl/list/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda.getSname());
+		System.out.println(honda.getModels());
+		context.close();
+		
+	}
+}
+
+```
+
+**Example - Set**
+
+```
+package com.dl.list;
+
+import java.util.List;
+
+//Pojo class
+public class Honda {
+
+	private String sname;
+	private List<String> models;
+	
+	public Honda() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getSname() {
+		return sname;
+	}
+
+	public void setSname(String sname) {
+		this.sname = sname;
+	}
+
+	public List<String> getModels() {
+		return models;
+	}
+
+	public void setModels(List<String> models) {
+		this.models = models;
+	}	
+	
+}
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       >
+       
+	     <bean class="com.dl.set.Honda" name="honda" >
+	     	<property name="sname">
+	     		<value>Fortune Honda</value>
+	     	</property>
+	     	<property name="models">
+	     		<list>
+	     			<value>Honda City</value>
+	     			<value>Honda Accord</value>
+	     			<value>Honda Civic</value>
+	     			<value>Honda Civic</value>
+	     		</list>
+	     	</property>
+	     </bean>
+
+</beans>
+```
+
+```
+package com.dl.set;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+
+
+public class Client {
+
+
+
+	public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context =  new ClassPathXmlApplicationContext("com/dl/set/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda.getSname());
+		System.out.println(honda.getModels());
+		context.close();
+		
+	}
+}
+
+
+```
+
+**Example - Map**
+
+```
+package com.dl.map;
+
+import java.util.Map;
+
+
+//Pojo class
+public class Honda {
+
+	private int vno;
+	private Map<Integer, String> models;
+	
+	public Honda() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public int getVno() {
+		return vno;
+	}
+
+	public void setVno(int vno) {
+		this.vno = vno;
+	}
+
+	public Map<Integer, String> getModels() {
+		return models;
+	}
+
+	public void setModels(Map<Integer, String> models) {
+		this.models = models;
+	}
+
+	@Override
+	public String toString() {
+		return "Honda [vno=" + vno + ", models=" + models + "]";
+	}
+	
+}
+
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       >
+       
+	     <bean class="com.dl.map.Honda" name="honda" >
+	     	<property name="vno">
+	     		<value>9876</value>
+	     	</property>
+	     	<property name="models">
+	     		<map>
+	     			<entry key="1" value="Honda City"></entry>
+	     			<entry>
+	     				<key><value>2</value></key>
+	     				<value>Honda Civic</value>
+	     			</entry>
+	     			<entry>
+	     				<key><value>3</value></key>
+	     				<value>Honda Accord</value>
+	     			</entry>
+	     		</map>
+	     	</property>
+	     </bean>
+
+</beans>
+```
+
+```
+package com.dl.map;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Client {
+
+
+
+	public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context =  new ClassPathXmlApplicationContext("com/dl/map/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda.getVno());
+		System.out.println(honda.getModels());
+		context.close();
+		
+	}
+}
+
+```
 
 
 
