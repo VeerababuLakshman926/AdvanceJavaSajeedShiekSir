@@ -42,7 +42,7 @@ Advance Java
 # What are the types of IOC Containers in Spring?
 **Bean Factory Container:**
 * BeanFactory interface is part of the org.springframework.beans.factory.package
-* import org.springframework.beans.factory.BeanFactory
+* ``` import org.springframework.beans.factory.BeanFactory ```
 * Where XmlBeanFactory is the implementation class of BeanFactory
 * It is the root interface of Spring IOC which is supported by BeanFactory interface.
 * The BeanFactory is the actual container which instantiaties, configures and manages the number of beans.
