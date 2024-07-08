@@ -599,7 +599,7 @@ public class Client {
 
 * Value as element, Value as attribute, pname Space
 * List, Set, Map, Properties
-* object reference, dcheck
+* object reference, dcheck(variable required check)
 
 # 2. Constructor Injection:
 
@@ -1076,6 +1076,282 @@ public class Client {
 }
 
 ```
+
+**Example - Properties**  
+
+```
+package com.dl.properties.util;
+
+import java.util.Properties;
+
+public class Honda {
+	
+	private Properties models;
+
+	public Properties getModels() {
+		return models;
+	}
+
+	public void setModels(Properties models) {
+		this.models = models;
+	}
+	
+
+}
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p">
+       
+	     <bean class="com.dl.properties.util.Honda" name="honda" >
+	     	
+	     	<property name="models">
+	     		 <props>
+	     		 	<prop key="A">Honda City</prop>
+	     		 	<prop key="B">Honda Civic</prop>
+	     		 	<prop key="C">Honda City</prop>
+	     		 </props>
+	     	</property>
+	     </bean>
+
+</beans>
+```
+
+```
+
+package com.dl.properties.util;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+
+
+public class Client {
+
+
+
+	public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context =  new ClassPathXmlApplicationContext("com/dl/properties/util/applicationContext.xml");
+		
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda.getModels());
+		context.close();
+		
+	}
+}
+```
+
+**Example - Object Reference**  
+
+```
+package com.dl.objectReference;
+
+public class Models {
+	
+	private String carName;
+	private Double cost;
+	private String generation;
+	private String type;
+	public String getCarName() {
+		return carName;
+	}
+	public void setCarName(String carName) {
+		this.carName = carName;
+	}
+	public Double getCost() {
+		return cost;
+	}
+	public void setCost(Double cost) {
+		this.cost = cost;
+	}
+	public String getGeneration() {
+		return generation;
+	}
+	public void setGeneration(String generation) {
+		this.generation = generation;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	@Override
+	public String toString() {
+		return "Models [carName=" + carName + ", cost=" + cost + ", generation=" + generation + ", type=" + type + "]";
+	}
+	
+	
+	
+	
+}
+
+
+```
+```
+package com.dl.objectReference;
+
+
+
+public class Honda {
+	
+	private Models models;
+
+	public Models getModels() {
+		return models;
+	}
+
+	public void setModels(Models models) {
+		this.models = models;
+	}
+
+	@Override
+	public String toString() {
+		return "Honda [models=" + models + "]";
+	}
+
+	
+
+}
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p">
+       
+	     <bean class="com.dl.objectReference.Models" name="models" p:carName="Honda City" p:cost="900000" p:generation="G6" p:type="Manual" />
+		<bean class="com.dl.objectReference.Honda" name="honda" p:models-ref="models" ></bean>
+</beans>
+```
+
+```
+package com.dl.objectReference;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+
+
+public class Client {
+
+
+
+	public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context =  new ClassPathXmlApplicationContext("com/dl/objectReference/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda.getModels());
+		System.out.println(honda);
+		context.close();
+		
+	}
+}
+
+```
+
+**Example - dCheck**  
+
+```
+package com.dl.dcheck;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Required;
+
+public class Honda {
+	
+	private int vno;
+	private List<String> models;
+	public int getVno() {
+		return vno;
+	}
+	
+	@Required
+	public void setVno(int vno) {
+		this.vno = vno;
+	}
+	public List<String> getModels() {
+		return models;
+	}
+	
+	@Required
+	public void setModels(List<String> models) {
+		this.models = models;
+	}
+	@Override
+	public String toString() {
+		return "Honda [vno=" + vno + ", models=" + models + "]";
+	}
+	
+	
+}
+
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context = "http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p">
+       
+       <context:annotation-config></context:annotation-config>
+		<bean class="com.dl.dcheck.Honda" name="honda">
+			
+			<property name="vno" value="1234"></property>
+			<property name="models" >
+				<list>
+					<value>Honda City</value>
+					<value>Honda Civic</value>
+				</list>  
+			</property>
+		
+		</bean>
+		<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
+		
+		
+</beans>
+```
+
+```
+
+package com.dl.dcheck;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+
+
+public class Client {
+
+
+
+	public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context =  new ClassPathXmlApplicationContext("com/dl/dcheck/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda);
+		context.close();
+		
+	}
+}
+
+```
+
 
 
 
