@@ -1354,6 +1354,639 @@ public class Client {
 
 ```
 
+# Constructor Injection 
+* Can be categorized into three types.
+# 1. Injection Primitive types: 
+* Value as element
+* Value as attribute
+* c nameSpace
+
+# 2. Injection Collection Types:
+* List
+* Set
+* Map
+* Properties
+
+# 3. Object Reference:
+* object reference
+
+# 1. Injection Primitive types:
+
+**Example - Value as a type**
+* POM.xml
+```
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.dl</groupId>
+  <artifactId>Spring_ConstructorInjection</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Spring_ConstructorInjection</name>
+  <description>Spring_ConstructorInjection</description>
+  
+  <dependencies>
+  	<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-core</artifactId>
+	    <version>5.3.34</version>
+	</dependency>
+	
+	
+	<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-context</artifactId>
+	    <version>5.3.34</version>
+	</dependency>
+
+  </dependencies>
+  
+</project>
+```
+* applicationContext.xml
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p">
+       
+      
+		<bean class="com.dl.ValueAsAElement.Honda" name="honda">
+			
+			<constructor-arg name="vno">
+				<value>8795</value>
+			</constructor-arg>
+			<constructor-arg name="vname">
+				<value>Honda City</value>
+			</constructor-arg>
+		
+		</bean>
+		
+		
+		
+</beans>
+```
+
+```
+package com.dl.ValueAsAElement;
+
+public class Honda {
+
+	private int vno;
+	private String vname;
+	
+	public Honda(int vno, String vname) {
+		this.vno = vno;
+		this.vname = vname;
+	}
+
+	@Override
+	public String toString() {
+		return "Honda [vno=" + vno + ", vname=" + vname + "]";
+	}
+	
+	
+	
+	
+}
+
+
+```
+```
+
+package com.dl.ValueAsAElement;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Client {
+	
+	public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("com/dl/ValueAsAElement/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda);
+		context.close();
+	}
+}
+
+```
+
+**Example - Value as an attribute**  
+Small changes need to be done in the applicationContext.xml file.  
+we are providing value as an attribute rather than element
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p">
+       
+      
+		<bean class="com.dl.ValueAsAttribute.Honda" name="honda">
+			
+			<constructor-arg name="vno" value="8795" />
+			<constructor-arg name="vname" value="Honda City" />
+			
+		
+		</bean>
+		
+		
+</beans>
+```
+
+**Example - Pname space**   
+Small changes need to be done in the applicationContext.xml file  
+we are providing value as a cname rather than element.
+we also add the cname space in the name spaces ``` xmlns:c="http://www.springframework.org/schema/c ```
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c">
+       
+      
+		<bean class="com.dl.PCnameSpace.Honda" name="honda" c:vno="8795" c:vname="Honda City" />
+		
+		
+		
+</beans>
+```
+
+# 2. Injection Collection Types:
+
+**Example - List**
+
+```
+package com.dl.collection.list;
+
+import java.util.List;
+
+public class Honda {
+	
+	private String sname;
+	private List<String> models;
+	public Honda(String sname, List<String> models) {
+		super();
+		this.sname = sname;
+		this.models = models;
+	}
+	@Override
+	public String toString() {
+		return "Honda [sname=" + sname + ", models=" + models + "]";
+	}
+	
+
+}
+
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c">
+
+	<bean class="com.dl.collection.list.Honda" name="honda">
+		
+			<constructor-arg name="sname" value="Fortune Honda"></constructor-arg>
+			<constructor-arg name="models"> 
+				<list>
+					<value>Honda City</value>
+					<value>Honda Accord</value>
+					<value>Honda Civic</value>
+					<value>Honda City</value>
+				</list>
+			</constructor-arg>
+	</bean>
+</beans>
+```
+
+```
+package com.dl.collection.list;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Client {
+	
+	public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("com/dl/collection/list/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda);
+		context.close();
+	}
+
+}	
+
+```
+
+**Example - Set**
+
+```
+package com.dl.collection.set;
+
+
+import java.util.Set;
+
+public class Honda {
+	
+	private String sname;
+	private Set<String> models;
+	public Honda(String sname, Set<String> models) {
+		super();
+		this.sname = sname;
+		this.models = models;
+	}
+	@Override
+	public String toString() {
+		return "Honda [sname=" + sname + ", models=" + models + "]";
+	}
+	
+	
+	
+
+}
+
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c">
+
+	<bean class="com.dl.collection.set.Honda" name="honda">
+		
+			<constructor-arg name="sname" value="Fortune Honda"></constructor-arg>
+			<constructor-arg name="models"> 
+				<set>
+					<value>Honda City</value>
+					<value>Honda Accord</value>
+					<value>Honda Civic</value>
+					<value>Honda City</value>
+				</set>
+			</constructor-arg>
+	</bean>
+</beans>
+```
+
+```
+package com.dl.collection.set;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Client {
+	
+	public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("com/dl/collection/set/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda);
+		context.close();
+	}
+
+}	
+
+```
+
+**Example - Map**
+
+```
+package com.dl.collection.map;
+
+import java.util.Map;
+
+public class Honda {
+	private Map<Integer, String> models;
+	private String sname;
+	
+	public Honda(String sname, Map<Integer, String> models) {
+		super();
+		this.sname = sname;
+		this.models = models;
+	}
+	@Override
+	public String toString() {
+		return "Honda [sname=" + sname + ", models=" + models + "]";
+	}
+
+}
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c">
+
+	<bean class="com.dl.collection.map.Honda" name="honda">
+			
+			
+			<constructor-arg name="sname" value="Fortune Honda"></constructor-arg>
+			<constructor-arg name="models">
+				<map>
+					<entry key="1"><value>Honda City</value></entry>
+					<entry key="2"><value>Honda Accors</value></entry>
+					<entry key="3"><value>Honda Civic</value></entry>
+					<entry key="4"><value>Honda City</value></entry>
+					
+				</map>
+			</constructor-arg>
+			
+	</bean>
+</beans>
+```
+
+```
+package com.dl.collection.map;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Client {
+	
+	public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("com/dl/collection/map/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda);
+		context.close();
+	}
+
+}	
+
+```
+
+**Example - Properties**  
+
+```
+package com.dl.properties.util;
+
+import java.util.Properties;
+
+public class Honda {
+
+	
+	private Properties models;
+
+	public Honda(Properties models) {
+		this.models = models;
+	}
+
+	@Override
+	public String toString() {
+		return "Honda [models=" + models + "]";
+	}
+	
+	
+	
+	
+	
+	
+}
+
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p">
+       
+      
+		<bean class="com.dl.properties.util.Honda" name="honda" >
+	     	<constructor-arg>
+	     		 <props>
+	     		 	<prop key="A">Honda City</prop>
+	     		 	<prop key="B">Honda Civic</prop>
+	     		 	<prop key="C">Honda City</prop>
+	     		 </props>
+	     	</constructor-arg>
+	     	
+	     </bean>
+		
+		
+</beans>
+```
+
+```
+
+package com.dl.properties.util;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Client {
+	
+	public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("com/dl/properties/util/applicationContext.xml");
+		Honda honda = context.getBean("honda",Honda.class);
+		System.out.println(honda);
+		context.close();
+	}
+}
+
+```
+
+# 3. Object Reference:
+
+**Example - Object Reference**  
+
+```
+package com.dl.objectReference;
+
+public class Models {
+	
+	private String carName;
+	private Double cost;
+	private String generation;
+	private String type;
+	public Models(String carName, Double cost, String generation, String type) {
+		super();
+		this.carName = carName;
+		this.cost = cost;
+		this.generation = generation;
+		this.type = type;
+	}
+	@Override
+	public String toString() {
+		return "Models [carName=" + carName + ", cost=" + cost + ", generation=" + generation + ", type=" + type + "]";
+	}
+	
+	
+}
+
+
+```
+```
+package com.dl.objectReference;
+
+public class Honda {
+	
+	private Models models;
+
+	public Honda(Models models) {
+		super();
+		this.models = models;
+	}
+
+	@Override
+	public String toString() {
+		return "Honda [models=" + models + "]";
+	}
+	
+	
+}
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c">
+
+	<bean class="com.dl.objectReference.Models" name="models" c:cost="90000" c:carName="Honda City" c:generation="G6" c:type="Manual" />
+	<bean class="com.dl.objectReference.Honda" name="honda"  c:models-ref="models"></bean>
+</beans>
+```
+
+```
+package com.dl.objectReference;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Client {
+	
+public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("com/dl/objectReference/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda);
+		context.close();
+	}
+
+}
+
+```
+
+**Example - dCheck**  
+
+```
+package com.dl.dcheck;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Required;
+
+public class Honda {
+	
+	private int vno;
+	private List<String> models;
+	public int getVno() {
+		return vno;
+	}
+	
+	@Required
+	public void setVno(int vno) {
+		this.vno = vno;
+	}
+	public List<String> getModels() {
+		return models;
+	}
+	
+	@Required
+	public void setModels(List<String> models) {
+		this.models = models;
+	}
+	@Override
+	public String toString() {
+		return "Honda [vno=" + vno + ", models=" + models + "]";
+	}
+	
+	
+}
+
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context = "http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p">
+       
+       <context:annotation-config></context:annotation-config>
+		<bean class="com.dl.dcheck.Honda" name="honda">
+			
+			<property name="vno" value="1234"></property>
+			<property name="models" >
+				<list>
+					<value>Honda City</value>
+					<value>Honda Civic</value>
+				</list>  
+			</property>
+		
+		</bean>
+		<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
+		
+		
+</beans>
+```
+
+```
+
+package com.dl.dcheck;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+
+
+public class Client {
+
+
+
+	public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context =  new ClassPathXmlApplicationContext("com/dl/dcheck/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda);
+		context.close();
+		
+	}
+}
+
+```
+
 
 
 
