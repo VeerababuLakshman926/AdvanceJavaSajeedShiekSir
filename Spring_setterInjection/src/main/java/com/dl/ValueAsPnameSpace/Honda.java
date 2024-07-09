@@ -6,10 +6,7 @@ public class Honda {
 	private int vno;
 	private String vname;
 	
-	public Honda() {
-		// TODO Auto-generated constructor stub
-	}
-
+	
 	public int getVno() {
 		return vno;
 	}
