@@ -6,21 +6,55 @@ Advance Java
 # Road Map
 
 # What is Spring?
-* Spring is dependency injection FrameWork
-* Spring is also called as Light Weight FrameWork alternate to J2EE(Servlets and JSP)
-* Spring became popular in developing Java Applications
-* Spring was developed by Rod Johnson
+* Spring is dependency injection FrameWork.
+* Spring is also called as Light Weight FrameWork alternate to J2EE(Servlets and JSP).
+* Spring became popular in developing Java Applications.
+* Spring was developed by Rod Johnson.
 
 # What is Dependency Injection?
-* Dependency Injection is a design pattern
-* It removes dependency from the program
-* This concept says that you dont create objects, but describe them how they should be created
-* You dont directly connect components and services together in code, but describe which services are need by which components in a spring config file
-* The spring container is responsible for hooking it up all
+* Dependency Injection is a design pattern.
+* It removes dependency from the program.
+* This concept says that you dont create objects, but describe them how they should be created.
+* You dont directly connect components and services together in code, but describe which services are need by which components in a spring configuration file.
+* The spring container is responsible for hooking it up all.
 * we have three types of dependency injections: Setter Injection(important), Construction Injection, Filed Injection.
+  
+**Dependency**
+* An object usually requires object of another classes to perform operations. We call these object dependencies.
+**Injection**
+* The process of providing the required dependencies to an object.
 
-# What is Spring config file?
-* Spring config is an XML file
+ ```
+class Address {
+	public void getAddress() {
+		System.out.println("Your Address");
+	}
+}
+
+public class User {
+	
+	private Address address;
+	
+	public User() {
+		address = new Address();
+	}
+	
+	public void address() {
+		address.getAddress();
+	}
+	
+	public static void main(String[] args) {
+		new User.address();
+	}
+}
+
+Here User is dependent class and Address class is dependency for this User class.
+Here Injection is nothing but providing the required Address object to the User Class object.
+```
+
+
+# What is Spring configuration file?
+* Spring config is an XML file.
 * This file contains class information and describes how these classes are configured and introduced to each other.
 ```
 <?xml version="1.0" encoding="UTF-8"?>
@@ -36,34 +70,34 @@ Advance Java
 
 ```
 # What is Spring IOC Container?
-* Spring IOC Container will create objects, wire them together, configure them and manage their life cycle till destruction
-* The Spring container uses Dependency Injection to manage the components that make up an application
+* Spring IOC Container will create objects, wire them together, configure them and manage their life cycle till destruction.
+* The Spring container uses Dependency Injection to manage the components that make up an application.
 
 # What are the types of IOC Containers in Spring?
 **Bean Factory Container:**
-* BeanFactory interface is part of the org.springframework.beans.factory.package
+* BeanFactory interface is part of the org.springframework.beans.factory.package.
 * ``` import org.springframework.beans.factory.BeanFactory ```
-* Where XmlBeanFactory is the implementation class of BeanFactory
+* Where XmlBeanFactory is the implementation class of BeanFactory.
 * It is the root interface of Spring IOC which is supported by BeanFactory interface.
 * The BeanFactory is the actual container which instantiaties, configures and manages the number of beans.
-* It belongs to org.springframework.beans.factory.BeanFactory interface
-* These beans typically collaborate with one another, and thus have dependencies between themselves
-* The BeanFactory enables you to read bean definition and access them using the bean factory
+* It belongs to org.springframework.beans.factory.BeanFactory interface.
+* These beans typically collaborate with one another, and thus have dependencies between themselves.
+* The BeanFactory enables you to read bean definition and access them using the bean factory.
 
 **Application Context:**
-* BeanFactory is the basic container, where as Application Context is the advanced container
-* Application Context extends the BeanFactory interface
-* The Application context interface is part of the org.springframework.context package in Spring framework
+* BeanFactory is the basic container, where as Application Context is the advanced container.
+* Application Context extends the BeanFactory interface.
+* The Application context interface is part of the org.springframework.context package in Spring framework.
 * ``` import org.springframework.context.ApplicationContext ```
 * Application context provides more facilities than BeanFactory such as integration withe Spring AOP, message resource handling for i18n etc..
 
 # What is POJO Class?
-* POJO stands for Plain Old Java Object
-* Here class must be public
-* Properties are private
-* Default constructor is mandatory
-* Need to have setters and getters
-* Now POJO class will not implement serializable interface
+* POJO stands for Plain Old Java Object.
+* Here class must be public.
+* Properties are private.
+* Default constructor is mandatory.
+* Need to have public setters and getters methods.
+* Now, POJO class will not implement serializable interface.
 
 ```
 //Pojo class and it is not implementing serializabe interface
@@ -100,12 +134,12 @@ public class Honda {
 ```
 
 # What is Bean Class?
-* All JavaBeans are POJO's, but not all POJO's are JavaBeans
-* Now, Bean class can implement Serializable Interface
-* Here class must be public
-* Properties are private
-* Default constructor is mandatory
-* Need to have setters and getters
+* All JavaBeans are POJO's, but not all POJO's are JavaBeans.
+* Now, Bean class can implement Serializable Interface.
+* Here class must be public.
+* Properties are private.
+* Default constructor is mandatory.
+*  Need to have public setters and getters methods.
 
 ```
 //Bean Class it is implementing Serlizable interface
@@ -146,11 +180,11 @@ public class Honda implements java.io.Serializable {
 ```
 
 # What is POJI class?
-* POJI stands for Plain Old Java Interface
-* It is a term analogous to POJO but for interfaces
-* A POJI is an interface that does not extend any special interfaces of framework or a library
-* It is just a regular interface with methods that need to be implemented by any class
-* It is a term less commonly used than POJO, but concept is similar
+* POJI stands for Plain Old Java Interface.
+* It is a term analogous to POJO, but for interfaces.
+* A POJI is an interface that does not extend any special interfaces of framework or a library.
+* It is just a regular interface with methods that need to be implemented by any class that implement POJI.
+* It is a term less commonly used than POJO, but concept is similar.
 
 ```
 public interface Vehicle{
@@ -1988,6 +2022,49 @@ public class Client {
 
 ```
 
+# When to use setter injection and When to constructor injection?
+* Constructor injection is used when all parameter are mandatory. If we are not unable to provide any parameter it will throw an error.
+* Setter injection is used when even if we don't provide the data for some parameter, default values are assigned and The code will run.
+
+# Constructor based DI example using Annotation based configuration
+* Constructor injection in Spring is a method of dependency injection in which the dependencies of a class are provided through the class's constructor.
+* This is the recommended method of dependency injection in spring as it promotes immutability and makes it clear what dependencies a class has.
+
+** Advantages: Constructor injection has several advantages over field injection in Spring: **
+1. **Immutability :** With constructor injection, the injected dependencies can be marked as final, ensuring that they cannot be modified once they are set. This is not possible with field injection, as the feilds needs to be non-final to allow injection after the object's construction.
+2. **Explicit Dependencies :** Constructor Injection makes the dependencies of a class explicit. By looking at the constructor, you can immediately see what dependencies a class has. With field injection, the dependencies are less obvious, as they scattered throughout the class.
+3. **Easier Testion :** Constructor Injection makes unit testing easier. You can simply instantiate the object with mock dependencies in your tests. With field injection, you would need to use reflection to set the fields, which can be more cumbersome.
+4. **Avoids Nulls :** With constructor injection, the container ensures that all the dependencies are satisfied before it invokes the class constructor, so there's no risk null pointer exceptions due to unsatisfied dependencies. With field injection, the fields are set after the constructor has run, so there's is a risk of null pointer exceptions if the object is used before the dependencies are set.
+5. **Fail Fast :** If a dependency cannot be injected, with constructor injection, the application will fail to start. This is a good thing because you will know about the configuration issue immediately. With field injection, the application can start with null fields, and you might only find out about the problem later when the null field is used.
+
+ **Disavantages	: While Constructor injection is generally recommended in Spring due to its advantages**
+ 1. **Verbose Code :** If a class has many dependencies, the constructor can become quiet large and unwieldy. This can make the code harder to read and maintain.
+ 2. **Circular Dependencies :** Constructor injection can lead to problems if you have circular dependencies between your beans. For example, if bean A requires bean B via constructor injection, and bean B requires bean A via constructor injection, spring won't be able to resolve these dependencies. However such circular dependencies are generally a sign of poor design and should be avoided.
+ 3. **Inflexibility :** Once a dependency is set via the constructor, it cannot be changed. This is generally a good thing as it promotes immutability, but there might be some rare cases where you need to change the dependencies of an object after it has been created.
+ 4. **Compatability with older code :** If you are working with older code that uses field or setter injections, you might need to refactor the code to use constructor injection. This can be time consuming and might introduce bugs if not done carefully.
+
+# Setter based DI example using Annotation based configuration
+* Setter injection in spring is method of dependency injection where the dependencies of a class are provided through setter methods.
+
+**Advantages**
+**Flexibility :**
+* You can change the dependencies of an object after it has been created.
+* This can be useful in some situations, but it can also lead to  problems if the object is used before all of its dependencies have been set.
+**Partial Injection :**
+* You can choose only inject some of the dependencies of a class.
+* This can be useful if some dependencies have sensibel defaults or are optional.
+
+**Disadvantages compared to Constructor Injection**
+**Mutability :**
+* The dependencies of an object can be changed after it has been created. This can lead to problems if the object is used in a multi-threaded environment.
+
+**Hiddend Dependencies :**
+* It's not immediately clear what dependencies a class has.
+* You have to look at all of the setter methods to find out.
+
+**More Difficult Testing :**
+* You have to remember to call the setter methods when creating an object in your tests.
+* If you forget to do this, your test might fail in confusing ways.
 
 
 
