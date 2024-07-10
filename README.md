@@ -649,7 +649,7 @@ public class Client {
 
 * byName: property name and bean name must be same
 * byType: property name and bean name can be different
-* cons: constructor mode inject the dependency by calling the constructor of the class, it calls the constructor having large number of parameters
+* constructor: constructor mode inject the dependency by calling the constructor of the class, it calls the constructor having large number of parameters
 * no: by default it no, it is not autowired
 * autodetect : deprecated in spring 3
 
