@@ -641,11 +641,7 @@ public class Client {
 * List, Set, Map, Properties
 * object reference, ambiguity
 
-# 3. Inner Beans:
-
-* setter injection and constructor injection and inner bean ref tag
-
-# 4. Autowiring:
+# 3. Autowiring:
 
 * byName: property name and bean name must be same
 * byType: property name and bean name can be different
@@ -653,7 +649,12 @@ public class Client {
 * no: by default it no, it is not autowired
 * autodetect : deprecated in spring 3
 
-# 5. Bean Scopes:
+# 4. Bean Scopes:
+
+# 5. Inner Beans:
+
+* setter injection and constructor injection and inner bean ref tag
+
 
 
 # Setter Injection 
@@ -1533,7 +1534,7 @@ we are providing value as an attribute rather than element
 </beans>
 ```
 
-**Example - Pname space**   
+**Example - C namespace**   
 Small changes need to be done in the applicationContext.xml file  
 we are providing value as a cname rather than element.
 we also add the cname space in the name spaces ``` xmlns:c="http://www.springframework.org/schema/c ```
@@ -1993,6 +1994,280 @@ public class Client {
 }	
 
 ```
+
+
+# Autowiring:
+
+* byName: property name and bean name must be same
+* byType: property name and bean name can be different
+* constructor: constructor mode inject the dependency by calling the constructor of the class, it calls the constructor having large number of parameters
+* no: by default it no, it is not autowired
+* autodetect : deprecated in spring 3
+
+
+**Example - byName**  
+
+```
+package com.dl.withByName;
+
+public class Models {
+	
+	private String models;
+	private String type;
+	
+	public String getModels() {
+		return models;
+	}
+	public void setModels(String models) {
+		this.models = models;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	@Override
+	public String toString() {
+		return "Models [models=" + models + ", type=" + type + "]";
+	}
+	
+}
+
+```
+```
+package com.dl.withByName;
+
+public class Honda {
+	
+	private Models models_byName;
+
+	public Models getModels_byName() {
+		return models_byName;
+	}
+
+	public void setModels_byName(Models models_byName) {
+		this.models_byName = models_byName;
+	}
+
+	@Override
+	public String toString() {
+		return "Honda [models_byName=" + models_byName + "]";
+	}
+
+	
+	
+}
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p">
+       
+	     <bean class="com.dl.withByName.Models" name="models_byName" p:models="Honda City" p:type="Manual" />
+		<bean class="com.dl.withByName.Honda" name="honda" autowire="byName" ></bean>
+		
+		<!-- Property name and bean name must be same-->
+</beans>
+```
+
+```
+package com.dl.withByName;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+
+
+public class Client {
+	
+public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("com/dl/withByName/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda);
+		context.close();
+	}
+}	
+
+
+```
+
+**Example - byType**  
+
+```
+package com.dl.withByType;
+
+public class Models {
+	
+	private String models;
+	private String type;
+	
+	public String getModels() {
+		return models;
+	}
+	public void setModels(String models) {
+		this.models = models;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	@Override
+	public String toString() {
+		return "Models [models=" + models + ", type=" + type + "]";
+	}
+	
+}
+
+```
+```
+package com.dl.withByType;
+
+public class Honda {
+	
+	private Models models;
+
+	public Models getModels() {
+		return models;
+	}
+
+	public void setModels(Models models) {
+		this.models = models;
+	}
+
+	@Override
+	public String toString() {
+		return "Honda [models=" + models + "]";
+	}
+	
+}
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p">
+       
+	     <bean class="com.dl.withByType.Models" name="model_byType" p:models="Honda City" p:type="Manual" />
+		<bean class="com.dl.withByType.Honda" name="honda" autowire="byType" ></bean>
+		
+		<!-- Property name and bean name can be different-->
+</beans>
+```
+
+```
+package com.dl.withByType;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+
+
+public class Client {
+	
+public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("com/dl/withByType/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda);
+		context.close();
+	}
+}	
+
+```
+
+**Example - ContructorType**  
+
+```
+package com.dl.ConstructorType;
+
+public class Models {
+	
+	private String models;
+	private String type;
+	
+	
+	public Models(String models, String type) {
+		this.models = models;
+		this.type = type;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Models [models=" + models + ", type=" + type + "]";
+	}
+	
+}
+
+```
+```
+package com.dl.ConstructorType;
+
+public class Honda {
+	
+	private Models models;
+	
+	public Honda(Models models) {
+		this.models = models;
+	}
+
+	@Override
+	public String toString() {
+		return "Honda [models=" + models + "]";
+	}
+	
+}
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c">
+       
+	     <bean class="com.dl.ConstructorType.Models" name="models_constructorType" c:models="Honda City" c:type="Manual" />
+		<bean class="com.dl.ConstructorType.Honda" name="honda" autowire="constructor" ></bean>
+		
+		
+</beans>
+```
+
+```
+package com.dl.ConstructorType;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+
+
+public class Client {
+	
+public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("com/dl/ConstructorType/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda);
+		context.close();
+	}
+}	
+
+```
+
+
 
 # When to use setter injection and When to constructor injection?
 * Constructor injection is used when all parameter are mandatory. If we are not unable to provide any parameter it will throw an error.
