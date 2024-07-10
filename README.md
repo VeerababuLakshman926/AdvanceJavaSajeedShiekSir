@@ -1932,40 +1932,27 @@ public static void main(String[] args) {
 **Example - Ambiguity**  
 
 ```
-package com.dl.dcheck;
+package com.dl.ambiguites;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Required;
-
-public class Honda {
+public class Student {
 	
-	private int vno;
-	private List<String> models;
-	public int getVno() {
-		return vno;
-	}
+	private int rollno;
+	private double stipend;
+	private String institute;
 	
-	@Required
-	public void setVno(int vno) {
-		this.vno = vno;
-	}
-	public List<String> getModels() {
-		return models;
+	public Student(int rollno, double stipend, String institute) {
+		this.rollno = rollno;
+		this.stipend = stipend;
+		this.institute = institute;
 	}
 	
-	@Required
-	public void setModels(List<String> models) {
-		this.models = models;
-	}
 	@Override
 	public String toString() {
-		return "Honda [vno=" + vno + ", models=" + models + "]";
+		return "Student [rollno=" + rollno + ", stipend=" + stipend + ", institute=" + institute + "]";
 	}
 	
 	
 }
-
 
 ```
 
@@ -1973,52 +1960,37 @@ public class Honda {
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context = "http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans 
-       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-       http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context-3.0.xsd"
-       xmlns:p="http://www.springframework.org/schema/p">
-       
-       <context:annotation-config></context:annotation-config>
-		<bean class="com.dl.dcheck.Honda" name="honda">
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c">
+
+	<bean class="com.dl.ambiguites.Student" name="student">
+		
+			<constructor-arg name="stipend" type="double" value="20000.00" index="1"></constructor-arg>
+			<constructor-arg name="rollno" type="int" value="101" index="0"></constructor-arg>
+			<constructor-arg name="institute" type="String" value="DL" index="2"></constructor-arg> 
 			
-			<property name="vno" value="1234"></property>
-			<property name="models" >
-				<list>
-					<value>Honda City</value>
-					<value>Honda Civic</value>
-				</list>  
-			</property>
-		
-		</bean>
-		<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
-		
-		
+	</bean>
 </beans>
 ```
 
 ```
-
-package com.dl.dcheck;
+package com.dl.ambiguites;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-
-
 public class Client {
-
-
-
+	
 	public static void main(String[] args) {
 		
-		ClassPathXmlApplicationContext context =  new ClassPathXmlApplicationContext("com/dl/dcheck/applicationContext.xml");
-		Honda honda = context.getBean("honda", Honda.class);
-		System.out.println(honda);
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("com/dl/ambiguites/applicationContext.xml");
+		Student student = context.getBean("student", Student.class);
+		System.out.println(student);
 		context.close();
-		
 	}
-}
+
+}	
 
 ```
 
