@@ -605,7 +605,7 @@ public class Client {
 
 * Value as element, Value as attribute, pc name Space
 * List, Set, Map, Properties
-* object reference c name space
+* object reference, ambiguity
 
 # 3. Inner Beans:
 
@@ -791,7 +791,7 @@ we are providing value as an attribute rather than element
 </beans>
 ```
 
-**Example - Pname space**   
+**Example - P namespace**   
 Small changes need to be done in the applicationContext.xml file  
 we are providing value as a pname rather than element.
 we also add the pname space in the name spaces ``` xmlns:p="http://www.springframework.org/schema/p ```
@@ -1149,7 +1149,7 @@ public class Client {
 
 # 3. Object Reference:
 
-**Example - Object Reference**  
+**Example - Objective Reference**  
 
 ```
 package com.dl.objectReference;
@@ -1369,6 +1369,7 @@ public class Client {
 
 # 3. Object Reference:
 * object reference
+* ambiguity
 
 # 1. Injection Primitive types:
 
@@ -1811,7 +1812,7 @@ public class Client {
 
 # 3. Object Reference:
 
-**Example - Object Reference**  
+**Example - Objective Reference**  
 
 ```
 package com.dl.objectReference;
@@ -1894,7 +1895,7 @@ public static void main(String[] args) {
 
 ```
 
-**Example - dCheck**  
+**Example - Ambiguity**  
 
 ```
 package com.dl.dcheck;
