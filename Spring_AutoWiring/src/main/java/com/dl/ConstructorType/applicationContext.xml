@@ -9,5 +9,5 @@
 	     <bean class="com.dl.ConstructorType.Models" name="models_constructorType" c:models="Honda City" c:type="Manual" />
 		<bean class="com.dl.ConstructorType.Honda" name="honda" autowire="constructor" ></bean>
 		
-		<!-- Property name and bean name can be different-->
+		
 </beans>
