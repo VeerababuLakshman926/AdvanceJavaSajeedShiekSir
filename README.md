@@ -394,8 +394,8 @@ public class Client {
 * This means that if you ever want to change the way messages are sent via SMS or email, you would need to modify the MessageSender class, which violates the principle of seperation of concerns and makes the code less flexible and harder to maintain.
 
 # Loose Coupling : minimal dependency between class objects
-* To achieve loose coupling, you can introduce an interface called MessageService, which both SMSService and EmailService will implement
-* Here's how you can refactor the code
+* To achieve loose coupling, you can introduce an interface called MessageService, which both SMSService and EmailService will implement.
+* Here's how you can refactor the code.
 ```
 package com.dl.looseCoupling;
 
@@ -650,6 +650,12 @@ public class Client {
 * autodetect : deprecated in spring 3
 
 # 4. Bean Scopes:
+We have 5 types of bean scopes.  
+* Singleton : creates only one instance of the bean.
+* Prototype : creates new instance for every bean call.
+* request : single bean instane per HTTP request.
+* Session : single bean instane per HTTP Session.
+* Global Session : single bean instane per global HTTP request.
 
 # 5. Inner Beans:
 
@@ -810,7 +816,7 @@ public class Client {
 
 **Example - Value as an attribute**  
 Small changes need to be done in the applicationContext.xml file.  
-we are providing value as an attribute rather than element
+we are providing value as an attribute rather than element.
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -827,7 +833,7 @@ we are providing value as an attribute rather than element
 ```
 
 **Example - P namespace**   
-Small changes need to be done in the applicationContext.xml file  
+Small changes need to be done in the applicationContext.xml file . 
 we are providing value as a pname rather than element.
 we also add the pname space in the name spaces ``` xmlns:p="http://www.springframework.org/schema/p ```
 ```
@@ -1512,7 +1518,7 @@ public class Client {
 
 **Example - Value as an attribute**  
 Small changes need to be done in the applicationContext.xml file.  
-we are providing value as an attribute rather than element
+we are providing value as an attribute rather than element.
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -1535,7 +1541,7 @@ we are providing value as an attribute rather than element
 ```
 
 **Example - C namespace**   
-Small changes need to be done in the applicationContext.xml file  
+Small changes need to be done in the applicationContext.xml file.  
 we are providing value as a cname rather than element.
 we also add the cname space in the name spaces ``` xmlns:c="http://www.springframework.org/schema/c ```
 ```
@@ -1994,15 +2000,17 @@ public class Client {
 }	
 
 ```
-
+# When to use setter injection and When to constructor injection?
+* Constructor injection is used when all parameter are mandatory. If we are not unable to provide any parameter it will throw an error.
+* Setter injection is used when even if we don't provide the data for some parameter, default values are assigned and The code will run.
 
 # Autowiring:
 
-* byName: property name and bean name must be same
-* byType: property name and bean name can be different
-* constructor: constructor mode inject the dependency by calling the constructor of the class, it calls the constructor having large number of parameters
-* no: by default it no, it is not autowired
-* autodetect : deprecated in spring 3
+* byName: property name and bean name must be same.
+* byType: property name and bean name can be different.
+* constructor: constructor mode inject the dependency by calling the constructor of the class, it calls the constructor having large number of parameters.
+* no: by default it no, it is not autowired.
+* autodetect : deprecated in spring 3.
 
 
 **Example - byName**  
@@ -2267,11 +2275,195 @@ public static void main(String[] args) {
 
 ```
 
+# 4. Bean Scopes:
+We have 5 types of bean scopes.  
+* Singleton : creates only one instance of the bean i.e., object address reference is same.
+* Prototype : creates new instance for every bean call.
+* request : single bean instane per HTTP request.
+* Session : single bean instane per HTTP Session.
+* Global Session : single bean instane per global HTTP request.
+
+**Example - Singleton : creates only one instance of the bean i.e., object address reference is same**  
+
+```
+package com.dl.singleton;
+
+public class Honda {
+	
+	private int vno;
+	private String vname;
+	public int getVno() {
+		return vno;
+	}
+	public void setVno(int vno) {
+		this.vno = vno;
+	}
+	public String getVname() {
+		return vname;
+	}
+	public void setVname(String vname) {
+		this.vname = vname;
+	}	
+	
+}
+
+```
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c">
+
+	<bean class="com.dl.singleton.Honda" name="honda" scope="singleton">
+		
+		<property name="vno" value="101"></property>	
+		<property name="vname" value="Honda City"></property>
+		
+		<!--Create only one instance for every bean call i.e., object address reference is same-->
+			
+	</bean>
+</beans>
+```
+
+```
+package com.dl.singleton;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
-# When to use setter injection and When to constructor injection?
-* Constructor injection is used when all parameter are mandatory. If we are not unable to provide any parameter it will throw an error.
-* Setter injection is used when even if we don't provide the data for some parameter, default values are assigned and The code will run.
+public class Client {
+	
+public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("com/dl/singleton/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda.getVno());
+		System.out.println(honda.getVname());
+		System.out.println(honda.getClass());
+		System.out.println(honda.hashCode());
+		
+		Honda honda2 = context.getBean("honda", Honda.class);
+		System.out.println(honda2.getVno());
+		System.out.println(honda2.getVname());
+		System.out.println(honda2.getClass());
+		System.out.println(honda2.hashCode());
+		
+		context.close();
+	}
+}
+
+```
+
+```
+101
+Honda City
+class com.dl.singleton.Honda
+1776409896 //object address is same in both cases
+101
+Honda City
+class com.dl.singleton.Honda
+1776409896  //object address is same in both cases
+
+```
+
+**Example - Prototype : creates new instance for every bean call i.e., new object address reference for every bean call**  
+
+```
+package com.dl.prototype;
+
+public class Honda {
+	
+	private int vno;
+	private String vname;
+	public int getVno() {
+		return vno;
+	}
+	public void setVno(int vno) {
+		this.vno = vno;
+	}
+	public String getVname() {
+		return vname;
+	}
+	public void setVname(String vname) {
+		this.vname = vname;
+	}
+	
+	
+	
+	
+}
+
+
+```
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c">
+
+	<bean class="com.dl.prototype.Honda" name="honda" scope="prototype">
+		
+		<property name="vno" value="101"></property>	
+		<property name="vname" value="Honda City"></property>
+		
+		<!--Create new instance for every bean call i.e., new object address reference-->
+			
+	</bean>
+</beans>
+```
+
+```
+package com.dl.prototype;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+
+public class Client {
+	
+public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("com/dl/prototype/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda.getVno());
+		System.out.println(honda.getVname());
+		System.out.println(honda.getClass());
+		System.out.println(honda.hashCode());
+		
+		Honda honda2 = context.getBean("honda", Honda.class);
+		System.out.println(honda2.getVno());
+		System.out.println(honda2.getVname());
+		System.out.println(honda2.getClass());
+		System.out.println(honda2.hashCode());
+		
+		context.close();
+	}
+}
+
+
+```
+
+```
+101
+Honda City
+class com.dl.prototype.Honda
+1954471782 //object address is different for both the cases
+101
+Honda City
+class com.dl.prototype.Honda
+1025309396 //object address is different for both the cases
+
+```
+
+
+
+
+
 
 # Constructor based DI example using Annotation based configuration
 * Constructor injection in Spring is a method of dependency injection in which the dependencies of a class are provided through the class's constructor.
