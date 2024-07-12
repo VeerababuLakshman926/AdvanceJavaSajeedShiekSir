@@ -2469,7 +2469,7 @@ class com.dl.prototype.Honda
 * Constructor injection in Spring is a method of dependency injection in which the dependencies of a class are provided through the class's constructor.
 * This is the recommended method of dependency injection in spring as it promotes immutability and makes it clear what dependencies a class has.
 
-** Advantages: Constructor injection has several advantages over field injection in Spring: **
+**Advantages: Constructor injection has several advantages over field injection in Spring:**
 1. **Immutability :** With constructor injection, the injected dependencies can be marked as final, ensuring that they cannot be modified once they are set. This is not possible with field injection, as the feilds needs to be non-final to allow injection after the object's construction.
 2. **Explicit Dependencies :** Constructor Injection makes the dependencies of a class explicit. By looking at the constructor, you can immediately see what dependencies a class has. With field injection, the dependencies are less obvious, as they scattered throughout the class.
 3. **Easier Testion :** Constructor Injection makes unit testing easier. You can simply instantiate the object with mock dependencies in your tests. With field injection, you would need to use reflection to set the fields, which can be more cumbersome.
