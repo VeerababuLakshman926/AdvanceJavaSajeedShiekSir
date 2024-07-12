@@ -658,8 +658,16 @@ We have 5 types of bean scopes.
 * Global Session : single bean instane per global HTTP request.
 
 # 5. Inner Beans:
+* Inner bean using setter injection.
+* Inner bean using constructor injection.
+* Inner bean using object reference.
 
-* setter injection and constructor injection and inner bean ref tag
+# 6. Annotations:
+* @Autowired (setter level, constructor level, feild level)
+* @Qualifier
+* @Component: For annotation configuration we annote with @Component annotation. This annotation allows spring container to auto detect while component scanning. Using Componentscan spring ioc container will basically scan the classes, which are annotated with @Component annotation it will create the instance of that class and manage beans.
+* @ComponentScan: Basically, we use @ComponentScan annotation along with @Configuration annotation to specify the class
+* @Configuration, @ComponentScan, @Value, @Bean, @Primary, @Scope, @LazyAnnotation.
 
 
 
@@ -2460,7 +2468,287 @@ class com.dl.prototype.Honda
 
 ```
 
+# 5. Inner Beans:
+* Inner bean using setter injection.
+* Inner bean using constructor injection.
+* Inner bean using object reference.
 
+**Example - Inner bean using setter injection**  
+
+```
+package com.dl.innerBeans.setterInjection;
+
+public class HondaCars {
+	
+	private String carModels;
+
+	public String getCarModels() {
+		return carModels;
+	}
+
+	public void setCarModels(String carModels) {
+		this.carModels = carModels;
+	}
+
+	@Override
+	public String toString() {
+		return "HondaCars [carModels=" + carModels + "]";
+	}
+	
+	
+}
+
+```
+```
+package com.dl.innerBeans.setterInjection;
+
+public class Honda {
+	
+	private HondaCars hondaCars;
+
+	public HondaCars getHondaCars() {
+		return hondaCars;
+	}
+
+	public void setHondaCars(HondaCars hondaCars) {
+		this.hondaCars = hondaCars;
+	}
+
+	@Override
+	public String toString() {
+		return "Honda [hondaCars=" + hondaCars + "]";
+	}
+	
+	
+}
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p">
+       
+       
+		<bean class="com.dl.innerBeans.setterInjection.Honda" name="honda">
+		
+			<property name="hondaCars">
+				<bean class="com.dl.innerBeans.setterInjection.HondaCars" name="car">
+					<property name="carModels" value="Honda City"></property>
+				</bean>
+			</property>
+			
+		
+		</bean>
+		
+		
+		
+</beans>
+```
+
+```
+package com.dl.innerBeans.setterInjection;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Client {
+	
+	public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("com/dl/innerBeans/setterInjection/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda.getHondaCars());
+		context.close();
+	}
+}
+
+```
+
+**Example - Inner bean using constructor injection**  
+
+```
+package com.dl.innerBeans.constructorInjection;
+
+public class HondaCars {
+	
+	private String carModels;
+
+	
+	public HondaCars(String carModels) {
+		this.carModels = carModels;
+	}
+
+	@Override
+	public String toString() {
+		return "HondaCars [carModels=" + carModels + "]";
+	}
+	
+	
+}
+
+```
+```
+package com.dl.innerBeans.constructorInjection;
+
+public class Honda {
+	
+	private HondaCars hondaCars;
+
+	
+	public Honda(HondaCars hondaCars) {
+		this.hondaCars = hondaCars;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Honda [hondaCars=" + hondaCars + "]";
+	}
+	
+	
+}
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+	xmlns:p="http://www.springframework.org/schema/p">
+
+
+	<bean class="com.dl.innerBeans.constructorInjection.Honda" name="honda">
+
+		<constructor-arg name="hondaCars">
+
+			<bean class="com.dl.innerBeans.constructorInjection.HondaCars"
+				name="car">
+				<constructor-arg name="carModels" value="Honda City"></constructor-arg>
+			</bean>
+
+		</constructor-arg>
+
+
+	</bean>
+
+
+</beans>
+```
+
+```
+package com.dl.innerBeans.constructorInjection;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Client {
+	
+	public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("com/dl/innerBeans/constructorInjection/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda);
+		context.close();
+	}
+}
+
+```
+
+**Example - Inner bean using object reference**  
+
+```
+package com.dl.innerBeans.objectReference;
+
+public class HondaCars {
+	
+	private String carModels;
+
+	public String getCarModels() {
+		return carModels;
+	}
+
+	public void setCarModels(String carModels) {
+		this.carModels = carModels;
+	}
+
+	@Override
+	public String toString() {
+		return "HondaCars [carModels=" + carModels + "]";
+	}
+	
+	
+}
+
+
+```
+```
+package com.dl.innerBeans.objectReference;
+
+public class Honda {
+	
+	private HondaCars hondaCars;
+
+	public HondaCars getHondaCars() {
+		return hondaCars;
+	}
+
+	public void setHondaCars(HondaCars hondaCars) {
+		this.hondaCars = hondaCars;
+	}
+
+	@Override
+	public String toString() {
+		return "Honda [hondaCars=" + hondaCars + "]";
+	}
+	
+	
+}
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+	xmlns:p="http://www.springframework.org/schema/p">
+
+
+	<bean class="com.dl.innerBeans.objectReference.HondaCars" name="car">
+		<property name="carModels" value="Honda City"></property>
+	</bean>
+
+	<bean class="com.dl.innerBeans.objectReference.Honda" name="honda">
+
+		<property name="hondaCars">
+			<ref bean="car" />
+		</property>
+
+
+	</bean>
+
+
+</beans>
+```
+
+```
+package com.dl.innerBeans.objectReference;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Client {
+	
+	public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("com/dl/innerBeans/objectReference/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda.getHondaCars());
+		context.close();
+	}
+}
+```
 
 
 
@@ -2504,6 +2792,51 @@ class com.dl.prototype.Honda
 **More Difficult Testing :**
 * You have to remember to call the setter methods when creating an object in your tests.
 * If you forget to do this, your test might fail in confusing ways.
+
+# Field Based DI Example using Annotation based configuration
+* Field injection in Spring is a way to inject dependencies into your classes.
+* This is done by using @Autowired annotation directly on the fields that need to be injected.
+* No need to use constructor and setter.
+
+**Advantages:**
+
+**Simplicity:**
+* It's is very easy to use.
+* You just need to add @Autowired annotation to a field and Spring will take care of the rest.
+* However, field injection also has some significant disadvantages compared to constructor injection.
+
+**Hidden Dependencies:**
+* It's not immediately clear what dependencies a class has. You have to look at all of the fields to find out.
+
+**Immutability :**
+* The dependencies of an object can be changed after it has been created.
+* This can lead to problems if the object is used in a multi-threaded environment.
+
+**Testing :**
+* It's more difficult to provide mock implementation of the dependencies when testing your class. You have to use reflection to change the fields, which can be cumbersome and error prone.
+
+**Disadvantages :**
+* Field injection is generally not recommended. Constructor injection is usually better choice.
+
+# Java Based Configuration Example
+* Yes, @Bean is a Spring Framework annotation.
+* It is used in Java-Based configuration to indicate that a method produces a bean to be managed by the Spring container.
+* In the context of Spring, a bean is an object that is instantiated, assembled and managed by the Spring IOC (Inversion of Control) container.
+* These beans are created with the configuration metadata that you supply to the container, via XML, Java annotations or Java code.
+
+# @Scope Annotation
+* @Scope annotation is used to define a scope of the bean.
+* We use @Scope to define the scope of a @Component class or a @Bean definition.
+* Singleton: Only one instance of the bean is created and shared across the entire application (default scope).
+* Prototype: a new instance of the bean is created every time it is requested.
+
+# @Lazy Annotation:
+* In Spring Framework, the @Lazy annotation is used to indicate that a bean should be lazily initaited.
+* This means that the bean will be created and initialized only when it is first requested for use.
+* In this example, LazyBean is a Spring bean that is marked with the @Lazy annotation.
+* This means that the LazyBean will not be created and initialzed at startup.
+
+
 
 
 
