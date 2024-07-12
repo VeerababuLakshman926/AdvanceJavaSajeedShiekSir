@@ -663,7 +663,7 @@ We have 5 types of bean scopes.
 * Inner bean using object reference.
 
 # 6. Annotations:
-* @Autowired (setter level, constructor level, feild level)
+* @Autowired (setter level, constructor level, field level)
 * @Qualifier
 * @Component: For annotation configuration we annote with @Component annotation. This annotation allows spring container to auto detect while component scanning. Using Componentscan spring ioc container will basically scan the classes, which are annotated with @Component annotation it will create the instance of that class and manage beans.
 * @ComponentScan: Basically, we use @ComponentScan annotation along with @Configuration annotation to specify the class
@@ -2758,7 +2758,7 @@ public class Client {
 * This is the recommended method of dependency injection in spring as it promotes immutability and makes it clear what dependencies a class has.
 
 **Advantages: Constructor injection has several advantages over field injection in Spring:**
-1. **Immutability :** With constructor injection, the injected dependencies can be marked as final, ensuring that they cannot be modified once they are set. This is not possible with field injection, as the feilds needs to be non-final to allow injection after the object's construction.
+1. **Immutability :** With constructor injection, the injected dependencies can be marked as final, ensuring that they cannot be modified once they are set. This is not possible with field injection, as the fields needs to be non-final to allow injection after the object's construction.
 2. **Explicit Dependencies :** Constructor Injection makes the dependencies of a class explicit. By looking at the constructor, you can immediately see what dependencies a class has. With field injection, the dependencies are less obvious, as they scattered throughout the class.
 3. **Easier Testion :** Constructor Injection makes unit testing easier. You can simply instantiate the object with mock dependencies in your tests. With field injection, you would need to use reflection to set the fields, which can be more cumbersome.
 4. **Avoids Nulls :** With constructor injection, the container ensures that all the dependencies are satisfied before it invokes the class constructor, so there's no risk null pointer exceptions due to unsatisfied dependencies. With field injection, the fields are set after the constructor has run, so there's is a risk of null pointer exceptions if the object is used before the dependencies are set.
