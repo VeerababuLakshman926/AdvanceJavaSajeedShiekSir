@@ -3821,7 +3821,7 @@ To connect the java program or application with the database there are five step
 4. Executing Query
 5. Closing Connection
 
-**1. Load the Driver**
+**1. Load the Driver**  
 Driver helps to make a connection to the database. Hence driver must be loaded once in the program. This can be done by two methods:
 
 * Class.forName() is a method in Java that loads the JDBC driver class for a particular database.
