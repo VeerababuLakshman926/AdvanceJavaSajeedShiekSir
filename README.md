@@ -3806,6 +3806,172 @@ public class Client {
 * This means that the LazyBean will not be created and initialzed at startup.
 
 
+# JDBC: JDBC API
+* **Java Database Connectivity(JDBC)** is an Application programming Interface(API) for the **Java Programming Language.**  
+* It is a part of **Java Standard Edition** platform from **Oracle Corporation.**
+* It allows Java programs to access and manipulate the data stored in a database.
+* It provides a set of classes and interfaces that enable Java code to interact with databases in a uniform and database-independent manner.
+**JDBC API --> Java Application --> JDBC Driver --> Database**
+
+To connect the java program or application with the database there are five steps to be followed:
+
+1. Load the Driver
+2. Create Connections
+3. Create Statement
+4. Executing Query
+5. Closing Connection
+
+**1. Load the Driver**
+Driver helps to make a connection to the database. Hence driver must be loaded once in the program. This can be done by two methods:
+
+* Class.forName() is a method in Java that loads the JDBC driver class for a particular database.
+* There is no need to create a new object.
+* It is used to dynamically load the driver at runtime.
+* For example: **Class.forName("com.mysql.cj.jdbc.Driver()")**
+
+* DriverManager.registerDriver().
+* DriverManager is a java class where the register is its static method(), this method accepts the new Driver object.
+* This method is typically called once at the beginning of the program to load the driver into memory and make it available for use throughout the program.
+* For example: **DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver())**
+
+**2. Creating Connections** 
+
+* After the driver is loaded, the connection is setup.
+* The connection object uses **username, password and URL** to setup the connection.
+* URL has a predefined format which contains **database name, the driver used, IP address** where the database is stored. **Port number** and the **Service provider**.
+* The connection can be setup by using the command: **Connection connection = DriverManager.getConnection(URL, userName, password)**
+* **connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/advancejava18jdbc", "root", "admin");**
+
+**3. Creating Statement**
+
+* After creating connection, the Statement object is created.
+* **Statement statement = connection.createStatement()**
+
+**4. Executing Query**
+
+* After creating statement, the database query is executed.
+* **String query = "create table emp(e_id int, e_name varchar(40), e_address varchar(255), e_salary double)";**
+* **statement.execute(query);**
+
+**5. Closing the open resources**
+
+* After completion of interaction with the database the resources should be closed and it is good coding practice.
+* **statement.close();**
+* **connection.close();**
+
+**Demo for Loading the DriverClass**
+
+```
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.dl</groupId>
+	<artifactId>JDBC</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>JDBC</name>
+	<description>JDBC</description>
+
+	<dependencies>
+
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.33</version>
+		</dependency>
+
+
+	</dependencies>
+</project>
+```
+```
+package com.dl.testConnection;
+
+import java.sql.DriverManager;
+
+public class TestConnection {
+	
+	public static void main(String[] args) {
+		
+		try {
+			//Load the driver
+			
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			
+			// above and below statements can be used to load the driver
+			
+			DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+			
+			System.out.println("Driver Class is loaded");
+		} catch (Exception e) {
+			System.out.println("The Exception is" + e);
+		}
+	}
+
+}
+
+```
+
+**Example of JDBC interaction with mysql**
+
+```
+package com.dl.createTable;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class CreateTable {
+	
+	public static void main(String[] args) {
+		
+		Connection connection = null;
+		Statement statement = null;
+		
+		try {
+			
+			//Step-1: Load the driver
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			
+			//Step-2: Create connection
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/advancejava18jdbc", "root", "Nani123@.");
+			
+			//Step-3: Create Statement
+			statement = connection.createStatement();
+			
+			//Step-4: Create Query
+			String query = "create table emp(e_id int, e_name varchar(40), e_address varchar(255), e_salary double)";
+			
+			//Step-5: Executing Statement
+			statement.execute(query);
+			
+			System.out.println("Table is created");
+			
+			
+		} catch (Exception e) {
+			System.out.println("Exception is" + e);
+		} finally {
+			
+			try {
+				statement.close();
+				System.out.println("Statement is closed");
+			} catch (SQLException e) {
+				System.out.println("Statement close exception is " + e);
+			}
+			try {
+				connection.close();
+				System.out.println("Connection is closed");
+			} catch (SQLException e) {
+				System.out.println("Connection close exception is " + e);
+			}
+			
+		}
+	}
+
+}
+```
 
 
 
