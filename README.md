@@ -3827,12 +3827,12 @@ Driver helps to make a connection to the database. Hence driver must be loaded o
 * Class.forName() is a method in Java that loads the JDBC driver class for a particular database.
 * There is no need to create a new object.
 * It is used to dynamically load the driver at runtime.
-* For example: **Class.forName("com.mysql.cj.jdbc.Driver()")**
+* For example: **Class.forName("com.mysql.cj.jdbc.Driver")**
 
 * DriverManager.registerDriver().
 * DriverManager is a java class where the register is its static method(), this method accepts the new Driver object.
 * This method is typically called once at the beginning of the program to load the driver into memory and make it available for use throughout the program.
-* For example: **DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver())**
+* For example: **DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver)**
 
 **2. Creating Connections** 
 
