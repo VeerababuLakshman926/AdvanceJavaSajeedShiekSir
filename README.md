@@ -2750,6 +2750,975 @@ public class Client {
 }
 ```
 
+# Annotation Based Configuration
+* Setter Injection Annotation Based Configuration
+* ConstructorInjection Annotation Based Configuration
+* Field Injection Annotation Based Configuration
+
+**Example - Setter Injection Annotation Based Configuration - Xml**  
+
+```
+package com.dl.setterinjection.ml;
+
+public class Models {
+	
+	private String models;
+	private String type;
+	public String getModels() {
+		return models;
+	}
+	public void setModels(String models) {
+		this.models = models;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	@Override
+	public String toString() {
+		return "Models [models=" + models + ", type=" + type + "]";
+	}
+	
+}
+
+```
+```
+package com.dl.setterinjection.ml;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+
+public class Honda {
+	
+	
+	private Models models;
+
+	public Models getModels() {
+		return models;
+	}
+
+	@Autowired
+	public void setModels(Models models) {
+		this.models = models;
+	}
+
+	@Override
+	public String toString() {
+		return "Honda [models=" + models + "]";
+	}
+}
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context = "http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p">
+       
+       <context:annotation-config/>
+		<bean class="com.dl.setterinjection.ml.Models" name="model">
+			<property name="models" value="Honda City, Honda Civic"></property>
+			<property name="type" value="Automatic" ></property>
+		</bean>
+		<bean class="com.dl.setterinjection.ml.Honda" name="honda" />
+		
+		
+</beans>
+```
+
+```
+package com.dl.setterinjection.ml;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Client {
+	
+	public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("com/dl/setterinjection/ml/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda.getModels());
+		context.close();
+		
+	}
+}
+```
+
+**Example - Setter Injection Annotation Based Configuration- Xml & AppConfig**  
+
+```
+package com.dl.setterinjection_annotation;
+
+public class Models {
+
+	private String models;
+	private String type;
+	public String getModels() {
+		return models;
+	}
+	public void setModels(String models) {
+		this.models = models;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	@Override
+	public String toString() {
+		return "Models [models=" + models + ", type=" + type + "]";
+	}
+}
+
+
+```
+```
+package com.dl.setterinjection_annotation;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class Honda {
+
+
+	private Models models;
+
+	public Models getModels() {
+		return models;
+	}
+
+	@Autowired
+	public void setModels(Models models) {
+		this.models = models;
+	}
+
+	@Override
+	public String toString() {
+		return "Honda [models=" + models + "]";
+	}
+	
+}
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context = "http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p">
+       
+       
+		<bean class="com.dl.setterinjection_annotation.Models" name="model">
+			<property name="models" value="Honda City, Honda Civic"></property>
+			<property name="type" value="Automatic" ></property>
+		</bean>
+		<bean class="com.dl.setterinjection_annotation.Honda" name="honda" />
+		
+		
+		
+</beans>
+```
+
+```
+package com.dl.setterinjection_annotation;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+
+@Configuration
+@ComponentScan(basePackages = "com.dl.setterinjection_annotation")
+public class AppConfig {
+	
+	@Bean
+	public Models models() {
+		
+		return new Models();
+	}
+	
+}
+
+```
+
+```
+package com.dl.setterinjection_annotation;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.dl.setterinjection.javabased.AppConfig;
+import com.dl.setterinjection.javabased.Honda;
+
+public class Client {
+	
+	public static void main(String[] args) {
+		
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+		Honda honda = context.getBean(Honda.class);
+		System.out.println(honda.getModels());
+		context.close();
+	}
+}
+
+```
+
+**Example - ConstructorInjection Annotation Based Configuration - Xml**
+
+```
+package com.dl.constructorinjection.ml;
+
+public class Models {
+	
+	private String models;
+	private String type;
+	
+	
+	public Models(String models, String type) {
+		
+		this.models = models;
+		this.type = type;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Models [models=" + models + ", type=" + type + "]";
+	}
+	
+}
+
+```
+```
+package com.dl.constructorinjection.ml;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+
+public class Honda {
+	
+	
+	private Models models;
+	
+	@Autowired
+	public Honda(Models models) {
+	
+		this.models = models;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Honda [models=" + models + "]";
+	}
+}
+
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context = "http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p">
+       
+       <context:annotation-config/>
+		<bean class="com.dl.constructorinjection.ml.Models" name="model">
+			<constructor-arg name="models" value="Honda City, Honda Civic"></constructor-arg>
+			<constructor-arg name="type" value="Automatic" ></constructor-arg>
+		</bean>
+		<bean class="com.dl.constructorinjection.ml.Honda" name="honda" />
+		
+		
+</beans>
+```
+
+```
+package com.dl.constructorinjection.ml;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Client {
+	
+	public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("com/dl/constructorinjection/ml/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda);
+		context.close();
+		
+	}
+}
+
+```
+
+**Example - Constructor Injection Annotation Based Configuration- Xml & AppConfig**  
+
+```
+package com.dl.constructorinjection_annotation;
+
+public class Models {
+
+	private String models;
+	private String type;
+	
+	public Models(String models, String type) {
+		
+		this.models = models;
+		this.type = type;
+	}
+
+	@Override
+	public String toString() {
+		return "Models [models=" + models + ", type=" + type + "]";
+	}
+}
+
+```
+```
+package com.dl.constructorinjection_annotation;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class Honda {
+
+
+	private Models models;
+
+	
+	@Autowired
+	public Honda(Models models) {
+		
+		this.models = models;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Honda [models=" + models + "]";
+	}
+	
+}
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context = "http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p">
+       
+       
+		<bean class="com.dl.constructorinjection_annotation.Models" name="model">
+			<constructor-arg value="Honda City, Honda Civic"/>
+    		<constructor-arg value="Automatic"/>
+		</bean>
+		<bean class="com.dl.constructorinjection_annotation.Honda" name="honda" />
+		
+		
+		
+</beans>
+```
+
+```
+package com.dl.constructorinjection_annotation;
+
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+
+@Configuration
+@ComponentScan(basePackages = "com.dl.constructorinjection_annotation")
+public class AppConfig {
+	
+	
+	
+}
+
+```
+
+```
+package com.dl.constructorinjection_annotation;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.dl.setterinjection.javabased.AppConfig;
+import com.dl.setterinjection.javabased.Honda;
+
+public class Client {
+	
+	public static void main(String[] args) {
+		
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+		Honda honda = context.getBean(Honda.class);
+		System.out.println(honda);
+		context.close();
+	}
+}
+
+```
+
+**Example - Field Injection Annotation Based Configuration - Xml**
+
+```
+package com.dl.feildinjection.ml;
+
+public class Models {
+	
+	private String models;
+	private String type;
+	public String getModels() {
+		return models;
+	}
+	public void setModels(String models) {
+		this.models = models;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	@Override
+	public String toString() {
+		return "Models [models=" + models + ", type=" + type + "]";
+	}
+	
+}
+
+```
+```
+package com.dl.feildinjection.ml;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+
+public class Honda {
+	
+	
+	@Autowired
+	private Models models;
+
+	public Models getModels() {
+		return models;
+	}
+
+	
+	public void setModels(Models models) {
+		this.models = models;
+	}
+
+	@Override
+	public String toString() {
+		return "Honda [models=" + models + "]";
+	}
+}
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context = "http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p">
+       
+       <context:annotation-config/>
+		<bean class="com.dl.feildinjection.ml.Models" name="model">
+			<property name="models" value="Honda City, Honda Civic"></property>
+			<property name="type" value="Automatic" ></property>
+		</bean>
+		<bean class="com.dl.feildinjection.ml.Honda" name="honda" />
+		
+		
+</beans>
+```
+
+```
+package com.dl.feildinjection.ml;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Client {
+	
+	public static void main(String[] args) {
+		
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("com/dl/feildinjection/ml/applicationContext.xml");
+		Honda honda = context.getBean("honda", Honda.class);
+		System.out.println(honda.getModels());
+		context.close();
+		
+	}
+}
+
+```
+**Example - Feild Injection Annotation Based Configuration- Xml & AppConfig**  
+
+```
+package com.dl.feildinjection_annotation;
+
+public class Models {
+
+	private String models;
+	private String type;
+	public String getModels() {
+		return models;
+	}
+	public void setModels(String models) {
+		this.models = models;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	@Override
+	public String toString() {
+		return "Models [models=" + models + ", type=" + type + "]";
+	}
+}
+
+```
+```
+package com.dl.feildinjection_annotation;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class Honda {
+
+	@Autowired
+	private Models models;
+
+	public Models getModels() {
+		return models;
+	}
+
+	
+	public void setModels(Models models) {
+		this.models = models;
+	}
+
+	@Override
+	public String toString() {
+		return "Honda [models=" + models + "]";
+	}
+	
+}
+
+
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context = "http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       https://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+       xmlns:p="http://www.springframework.org/schema/p">
+       
+       
+		<bean class="com.dl.feildinjection_annotation.Models" name="model">
+			<property name="models" value="Honda City, Honda Civic"></property>
+			<property name="type" value="Automatic" ></property>
+		</bean>
+		<bean class="com.dl.feildinjection_annotation.Honda" name="honda" />
+		
+		
+		
+</beans>
+```
+
+```
+package com.dl.feildinjection_annotation;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+
+@Configuration
+@ComponentScan(basePackages = "com.dl.feildinjection_annotation")
+public class AppConfig {
+	
+	@Bean
+	public Models models() {
+		
+		return new Models();
+	}
+	
+}
+
+```
+
+```
+package com.dl.feildinjection_annotation;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.dl.setterinjection.javabased.AppConfig;
+import com.dl.setterinjection.javabased.Honda;
+
+public class Client {
+	
+	public static void main(String[] args) {
+		
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+		Honda honda = context.getBean(Honda.class);
+		System.out.println(honda.getModels());
+		context.close();
+	}
+}
+
+
+```
+
+# Java Based Configuration
+* Setter Injection Java Based Annotation  Configuration
+* Constructor Injection Java Based Annotation  Configuration
+* Feild Injection Java Based Annotation  Configuration
+
+**Example - Setter Injection Java Based Annotation  Configuration**
+
+```
+package com.dl.setterinjection.javabased;
+
+public class Models {
+	
+	private String models;
+	private String type;
+	public String getModels() {
+		return models;
+	}
+	public void setModels(String models) {
+		this.models = models;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	@Override
+	public String toString() {
+		return "Models [models=" + models + ", type=" + type + "]";
+	}
+	
+	
+
+}
+
+
+```
+```
+package com.dl.setterinjection.javabased;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Honda {
+	
+	private Models models;
+
+	public Models getModels() {
+		return models;
+	}
+
+	@Autowired
+	public void setModels(Models models) {
+		this.models = models;
+	}
+
+	@Override
+	public String toString() {
+		return "Honda [models=" + models + "]";
+	}
+	
+}
+
+```
+
+```
+package com.dl.setterinjection.javabased;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan(basePackages = "com.dl.setterinjection.javabased")
+public class AppConfig {
+	
+	@Bean
+	public Models models() {
+		
+		Models models = new Models();
+		models.setModels("Honda City, Honda Civic");
+		models.setType("Automatic");
+		
+		return models;
+	}
+	
+}
+
+```
+
+```
+package com.dl.setterinjection.javabased;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class Client {
+	
+	public static void main(String[] args) {
+		
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+		Honda honda = context.getBean(Honda.class);
+		System.out.println(honda.getModels());
+		context.close();
+	}
+
+}
+
+```
+
+**Example - Constructor Injection Java Based Annotation  Configuration**
+
+```
+package com.dl.constructorinjection.javabased;
+
+public class Models {
+	
+	private String models;
+	private String type;
+	
+	public Models(String models, String type) {
+		this.models = models;
+		this.type = type;
+	}
+
+	@Override
+	public String toString() {
+		return "Models [models=" + models + ", type=" + type + "]";
+	}
+	
+	
+
+}
+
+```
+```
+package com.dl.constructorinjection.javabased;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Honda {
+	
+	private Models models;
+
+	
+	@Autowired
+	public Honda(Models models) {
+		this.models = models;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Honda [models=" + models + "]";
+	}
+	
+}
+
+
+```
+
+```
+package com.dl.constructorinjection.javabased;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan(basePackages = "com.dl.constructorinjection.javabased")
+public class AppConfig {
+	
+	@Bean
+	public Models models() {
+		
+		Models models = new Models("Honda City, Honda Civic", "Automatic");
+		
+		return models;
+	}
+	
+}
+
+
+```
+
+```
+package com.dl.constructorinjection.javabased;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class Client {
+	
+	public static void main(String[] args) {
+		
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+		Honda honda = context.getBean(Honda.class);
+		System.out.println(honda);
+		context.close();
+	}
+
+}
+
+```
+
+**Example - Feild Injection Java Based Annotation  Configuration**
+
+```
+package com.dl.feildinjection.javabased;
+
+public class Models {
+	
+	private String models;
+	private String type;
+	public String getModels() {
+		return models;
+	}
+	public void setModels(String models) {
+		this.models = models;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	@Override
+	public String toString() {
+		return "Models [models=" + models + ", type=" + type + "]";
+	}
+	
+	
+
+}
+
+
+```
+```
+package com.dl.feildinjection.javabased;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Honda {
+	
+	@Autowired
+	private Models models;
+
+	public Models getModels() {
+		return models;
+	}
+
+	
+	public void setModels(Models models) {
+		this.models = models;
+	}
+
+	@Override
+	public String toString() {
+		return "Honda [models=" + models + "]";
+	}
+	
+}
+
+```
+
+```
+package com.dl.feildinjection.javabased;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan(basePackages = "com.dl.feildinjection.javabased")
+public class AppConfig {
+	
+	@Bean
+	public Models models() {
+		
+		Models models = new Models();
+		models.setModels("Honda City, Honda Civic");
+		models.setType("Automatic");
+		
+		return models;
+	}
+	
+}
+
+```
+
+```
+package com.dl.feildinjection.javabased;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class Client {
+	
+	public static void main(String[] args) {
+		
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+		Honda honda = context.getBean(Honda.class);
+		System.out.println(honda.getModels());
+		context.close();
+	}
+
+}
+
+```
+
+
 
 
 
