@@ -3811,7 +3811,7 @@ public class Client {
 * It is a part of **Java Standard Edition** platform from **Oracle Corporation.**
 * It allows Java programs to access and manipulate the data stored in a database.
 * It provides a set of classes and interfaces that enable Java code to interact with databases in a uniform and database-independent manner.
-**JDBC API --> Java Application --> JDBC Driver --> Database**
+* **JDBC API --> Java Application --> JDBC Driver --> Database**
 
 To connect the java program or application with the database there are five steps to be followed:
 
