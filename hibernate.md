@@ -120,7 +120,7 @@ The SessionFactory is a factory for Session instances.
 **transactional :** caching will work for transaction.  
     **->** The cache-usage property can be applied to class or collection level in hbm.xml file.  
     **->** The example to define cache usage is given as    
-    **<cache usage="read-only" />**
+    **<cache usage="read-only"/>**
 
 # Printing Hibernate Queries in Console: 
 * Hibernate has build-in a function to enable the **Logging** of all the generated SQL statements to the console.
