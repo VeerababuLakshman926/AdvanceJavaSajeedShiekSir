@@ -285,13 +285,108 @@ There are following main rules of persistent classes, however, none of these rul
 
 # Which elements of hbm.xml defines a specific mappings from a Java classes to the database tables?
 
-* The **```<class>```** elements are used to define
+* The **```<class>```** elements are used to define specific mapping from a **Java Classes** to the **Database tables**
+* The **Java class name** is specified using the **name attribute** of the **class element** and the **database table name** is specified using the **table attribute**.
 
+# Which elements of hbm.xml defines maps the unique ID attribute in class to the primary key of the database tables?
 
+* The **```<id>```** element maps the unique ID attribute in class to the primary key of the database table.
+* The name attribute of the id element refers to the property in the class and the column attribute refers to the column in the database table.
+* The type attribute holds the hibernate mapping type, this mapping types will convert from Java to SQL data type.
 
+# Which element of hbm.xml is used to automatically generate the primary key values?
 
+* The **```<generator>```** element within the id element is used to automatically generate the primary key values.
+* Set the class attribute of the generator element is set to native to let hibernate pick up either identity, sequence or hilo alogorithm to create primary key depending upon the capabilities of the underlying database.
 
+# Which element of hbm.xml is used to map a java class property to a column in the database table?
 
+* The **```<property>```**  element is used to map a Java Class property to a column in the database table.
+* The name attribute of the element refers to the property in the class and the column attribute refers to the column in the database table.
+* The type attribute holds the hibernate mapping type, this mapping types will convert Java to SQL data type.
+
+# Which element of hbm.xml is used to map a java.util.Set property in hibernate?
+
+* This is mapped with a **```<set>```** element and initailized with **```java.util.HashSet```**.
+
+# Which element of hbm.xml is used to map a java.util.SortedSet property in hibernate?
+
+* This is mapped with a **```<set>```** element and initailized with **```java.util.TreeSet```**.
+* The sort attribute can be set to either a comparator or natural ordering.
+
+# Which element of hbm.xml is used to map a java.util.List property in hibernate?
+
+* This is mapped with a **```<list>```** element and initailized with **```java.util.ArrayList```**.
+
+# Which element of hbm.xml is used to map a java.util.Collection property in hibernate?
+
+* This is mapped with a **```<bag>```** or **```<ibag>```** element and initailized with **```java.util.ArrayList```**.
+
+# Which element of hbm.xml is used to map a java.util.Map property in hibernate?
+
+* This is mapped with a **```<map>```** element and initailized with **```java.util.HashMap```**.
+
+# Which element of hbm.xml is used to map a java.util.SortedMap property in hibernate?
+
+* This is mapped with a **```<map>```** element and initailized with **```java.util.TreeMap```**.
+* The sort attribute can be set to either a comparator or natural ordering.
+
+# What is the difference between save() and persist() methods of session object?
+
+* session.save saves the object and returns the id of the instance whereas  persist do  not return anything after saving the instance.
+
+# What is lazy loading?
+
+* Lazy loading is a technique in which objects are loaded on demand basis.
+* Since Hibernate 3, lazy loading is by default enabled so that child objects are not loaded when parent parent is loaded.
+
+# HQL
+
+* HQL is a query language which looks like sql but the difference is HQL Query(commands) are database independent.
+* HQL queries are database independent and sql queries are DB dependent.
+* HQL query looks similar to sql query.
+* In HQL query, in place of table name we put pojo class name and in place of column name we put varialbe names of pojo class.
+* Because of pojo class name and variables are used in HQL.
+* Query HQL is called an object oriented form of sql.
+* Internally hibernate translates HQL query into SQL query with respect to database, using "Dialect.class".
+
+# Projection is used for 2 ways. They are
+
+1. To read the **partial entity** from the DB using **Criteria**
+2. To perform **aggregate function** using **Criteria**
+
+ProjectionList is a optional when we used single property(single projection).   
+**```Projection p Projections.property("employeeSalary");```**
+**```crit.setProjection(p)```**
+
+When we want to read a partial entity with a single property then we don't require a ProjectionList.  
+We can directly sent Projection object to Criteria.
+
+**```
+Criteria crit = session.createCriteria("Employee.class");
+Projection p = Projections.property("employeeSalary");
+crit.setProjection(p);
+List list = crit.list();
+Iterator it = list.iterator();
+while(it.hasNext()){
+Integer i = (Integer) it.next();
+--
+--
+}```**
+
+While working with Criteria object, if we want to read a result by executing some aggregate functions then also we need to take the support of Projections.  
+
+**```
+Criteria crit = session.createCriteria("Employee.class");
+Projection p1 = Projections.property("employeeSalary");
+Projection p2 = Projections.property("employeeSalary");
+Projection p3 = Projections.property("employeeSalary");
+ProjectionList plist = Projections.projectionList();
+plist.add(p1);
+plist.add(p2);
+plist.add(p3);
+crit.setProjection(plist);
+List list = crit.list();```**
 
 
 
