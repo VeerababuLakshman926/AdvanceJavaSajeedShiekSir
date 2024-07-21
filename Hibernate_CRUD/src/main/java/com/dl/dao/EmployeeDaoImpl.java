@@ -26,8 +26,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 	@Override
 	public Employee findById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = sessionFactory.openSession();
+		Employee employee = session.get(Employee.class, id);
+		session.close();
+		return employee;
 	}
 
 	@Override
@@ -35,7 +37,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		Session session = sessionFactory.openSession();
 		
 		Transaction tx = session.beginTransaction();
-		//session.save(employee);
+		//session.save(employee); --> deprecated
 		session.persist(employee);
 		tx.commit();
 		session.close();
@@ -46,7 +48,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	public void update(Employee employee) {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		//session.update(employee);
+		//session.update(employee); --> deprecated
 		session.merge(employee);
 		tx.commit();
 		session.close();
@@ -56,8 +58,21 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 	@Override
 	public void delete(Long id) {
-		// TODO Auto-generated method stub
+		Session session = sessionFactory.openSession();
+		Transaction tx =  session.beginTransaction();
+		Employee employee = session.get(Employee.class, id);
 		
+		if(employee != null) {
+			//session.delete(employee); --> deprecated
+			session.remove(employee);
+			tx.commit();
+			System.out.println("Employee Deleted successfully");
+		} else {
+			System.out.println("No data found based on the Id provided");
+			
+		}
+		
+		session.close();
 	}
 
 }

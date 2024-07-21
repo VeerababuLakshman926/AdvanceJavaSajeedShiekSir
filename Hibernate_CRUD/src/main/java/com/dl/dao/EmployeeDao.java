@@ -11,5 +11,9 @@ public interface EmployeeDao {
 	void update(Employee employee);
 	
 	void delete(Long id);
+	
+	//Insert Multiple records
+	//get same names records
+	// select using letter
 
 }

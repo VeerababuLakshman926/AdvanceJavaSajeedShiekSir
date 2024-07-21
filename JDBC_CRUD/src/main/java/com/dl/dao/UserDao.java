@@ -28,6 +28,7 @@ public interface UserDao {
 	// get all same names
 	//get all same email id
 	//Search based on name
+	//Understanding rollback and transaction
 	
 	
 
