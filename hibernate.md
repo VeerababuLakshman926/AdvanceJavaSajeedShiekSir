@@ -390,6 +390,133 @@ crit.setProjection(plist);
 List list = crit.list();
 ```
 
+# Difference between Merge and Update methods in hibernate?
+
+* Both **update()** and **merger()** methods in hibernate are used to convert the object which is in **detached state into persistent state**.
+* But there is a little difference. Actually update and merge methods will come into picture when ever we **loaded the same object again and again** into database.
+
+# Transaction Management
+
+* A **transaction** simply represents a unit of work.
+* In such case, if one step fails, the whole transaction fails (which termed as atomicity).
+* A transaction can be described by **ACID** properties **(Atomicity, Consistency, Isolation and Durability)**.
+
+**Transaction Interface in Hibernate**  
+
+* In hibernate framework, we have **Transaction interface** that defines the unit of work.
+* It maintains abstraction from the transaction implementation **(JTA,JDBC)**.
+* A transaction is associated with Session instantiated by calling **session.beginTransaction();**
+
+**The methods of Transaction interface are as follows :**  
+
+* **void begin()** starts a new transaction.
+* **void commit()** ends the unit of work unless we are in FlushMode.NEVER.
+* **void rollback()** forces this transaction to rollback.
+* **void setTimeout(int seconds)** it sets a transaction timeout for any transaction started by a subsequent call to begin on this instance.
+* **boolean IsAlive()** checks if the transaction is still alive.
+* **void registerSynchronization(Synchronization s)** registers a user synchronization callback for this transaction.
+* **boolean wasCommitted()** checks if the transaction is committed successfully.
+* **boolean wasRolledBack()** checks if the transaction is rolledbacked successfully.
+
+**Hibernate Configuration file**  
+
+* Hibernate configuration file contains database specific configurations and used to intialize SessionFactory.
+* We provide database credentials or JNDI resource information in the hibernate configuration xml file.
+* Some other important parts of hibernate configuration file is **Dialect** information, so that hibernate knows the database type and mapping file or class details.
+
+# What is Right Join?
+
+* Right Join is a key word in SQL.
+* Which returns all the data from right hand side (table 2) and matched records from left hand side table (table 1).
+* We can see the NULL values from the left side if there is no match.
+
+# Hibernate Right Join
+
+* We can apply the Joins in Hibernate by using the **hql query or native sql query**.
+* To make a join between the two tables, those two tables must be in a logical relationship.
+* We can meet the relationship between two tables by applying the parents table's primary key as childs table's foreign key.
+
+# What is Left Join?
+
+* Left Join is a key word in SQL.
+* Which returns all the data from left hand side and matched records from right hand side table.
+* We can see the NULL values from the right side if there is no match.
+
+# Hibernate Left Join
+
+* We can apply the Joins in Hibernate by using the **hql query or native sql query**.
+* To make a join between the two tables, those two tables must be in a logical relationship.
+* We can meet the relationship between two tables by applying the parents table's primary key as childs table's foreign key.
+
+
+# Hibernate proxy?
+
+* A mapping of classes can be made into a proxy instead of using the table.
+* This will be used to return the load and often called as a session.
+* It can also contain an actual method to load the data and proxy is created by default by Hibernate, for mapping a class to a file.
+
+# Hibernate Session and how to get it?
+
+* Hibernate Session is the interface Java application layer and Hibernate.
+* This is the core interface used to perform database operations.
+* Lifecycle of a session is bound by the beginning and end of transaction.
+* Session provide methods to perform create, read, update and delete operations for a persistent object.
+* We can execut HQL queries, SQL native queries and create criteria using Session object.
+
+# Hibernate Generator Classes
+
+* **Generators** are one of the most key concept in hibernate.
+* Hibernate provides different types of  predefined generator classes, to represent a primary key in database.
+* A generator class is used to generate an Id for an object, which is going to be insert in database as a primary key.
+
+**Predefined Generator Classes**  
+Hibernate has given some predefined generator classes listed below :  
+* **assigned**
+* **increment**
+* **sequence**
+* **hilo**
+* **identity**
+* **native**
+* **foreign**
+* **uuid**
+
+# Custom generator class in hibernate:
+
+* If we want to generate  a primary key with our own format, then we can go this custom generator i.e., If we want to generate id as numeric then we can go with any generator except assigned.
+* Or If we want to make the id as String type we can go with assigned.
+* To achieve this, we can go with custome generator in hibernate.
+* In order to create a user defined generator class in hibernate (custom generators) our class should implement Identifier Generator interface.
+* Not only our custom generator class, all the pre-defined generator classes were implemented by the Identifier Generator Interface.
+* The Identifier Generator Interface has a single abstract method called generate().
+* So we need to override generate() method and define our own logic to generate custom Id in that.
+
+# What are collection types in Hibernate?
+There are five collection types in hibernate used for **one-to-many relationship mappings**  
+* **Bag**
+* **Set**
+* **List**
+* **Array**
+* **Map**
+
+# Why we should not make Entity Class final?
+* Hibernate use **proxy classes for lazy loading of data**, only when it's needed.
+* This is done **by extending the entity bean**, if the entity bean will be final then lazy loading will not be possible, hence low performance.
+
+# Hibernate Session is thread safe?
+* Hibernate Session object **is not thread safe**, every thread should get it's own session instance and close it after it's work is finished.
+
+# Difference between openSession() and getCurrentSession()?
+
+* Hibernate **SessionFactory.getCurrentSession() method** returns the session bound to the context.
+* But for this to work, we need to configure it in **hibernate configuration file**.
+* Since this session object belongs to the hibernate context, we don't need to close it.
+* Once the **SessionFactory is closed**, this **Session** objects gets closed.
+* **```<property name="hibernate.current_session_context_class">thread</property>```**
+* Hibernate SessionFactory **openSession()** method always opens a new session.
+* We should **close this session object** once we are done with all the database operations.
+* We should open a new session for each request in multi-thread environment.
+
+
 
 
 
