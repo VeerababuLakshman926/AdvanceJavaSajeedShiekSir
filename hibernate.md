@@ -376,7 +376,7 @@ Integer i = (Integer) it.next();
 
 While working with Criteria object, if we want to read a result by executing some aggregate functions then also we need to take the support of Projections.  
 
-**```
+```
 Criteria crit = session.createCriteria("Employee.class");
 Projection p1 = Projections.property("employeeSalary");
 Projection p2 = Projections.property("employeeSalary");
@@ -386,7 +386,8 @@ plist.add(p1);
 plist.add(p2);
 plist.add(p3);
 crit.setProjection(plist);
-List list = crit.list();```**
+**List list = crit.list();**
+```
 
 
 
