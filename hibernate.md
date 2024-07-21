@@ -130,11 +130,15 @@ The SessionFactory is a factory for Session instances.
 * You can enable it by add a  **"show_sql" property** in the Hibernate configuration file **"hibernate.cfg.xml"**.
 * This function is good for basic troubleshooting.
 * Enable the logging of all the generated SQL statements to the console
-**<!--hibernate.cfg.xml-->**  
-**<property name="show_sql">true</property>**  
+```
+<!--hibernate.cfg.xml-->
+<property name="show_sql">true</property>
+```
 * Format the generated SQL statement to make it more readable, but takes up more screen space.
-**<!--hibernate.cfg.xml-->**  
-**<property name="format_sql">true</property>**  
+```
+<!--hibernate.cfg.xml-->
+<property name="format_sql">true</property>
+```
 
 # Cascade Attributes
 
