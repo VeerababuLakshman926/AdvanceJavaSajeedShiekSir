@@ -215,7 +215,77 @@ The SessionFactory is a factory for Session instances.
 
 # What are the three states of a persistent entity at a given point in time?
 
+* Instances may exist in one of the following three states at a given point of time.
+* **transient :** A new instance of a persistent class which is not associated with a Session and has no representation in the database and no identifier value is considered transient by hibernate.
+* **persistent :** You can make a transient instance persistent by associating it with a Session. A persistent instance has a representation in the database, an identifier value and is associated with a Session.
+* **detaches :** Once we close the Hibernate Session, the persistent instance will become a detached instance.
 
+# What is the purpose of Session.beginTransaction() method?
+
+* **Session.beginTransaction()** begins a unit of work and returns the associated Transaction object.
+
+# Which method is used to add a Criteria to a query?
+
+* **Session.criteria()** creates a new Criteria instance, for the given entity class or a superclass of an entity class.
+
+# Which method is used to a HQL query SQL query?
+
+* **Session.createQuery** creates a new instance of Query for the given HQL query string.
+* **Session.createSQLQuery** creates a new instance of SQLQuery for the given SQL query string.
+
+# Which method is used to remove a persistent instance from the datastore?
+
+* **Session.delete** removes a persistent instance from the datastore.
+
+# Which method is used to get a persistent instance from the datastore?
+
+* **Session.get** returns the persistent instance of the given **names entity** with the given **identifier** or **null** if there is no such persistance instance.
+
+# Which method is used to re-read the state of the given instance from the underlying database?
+
+* **Session.refresh** re-reads the state of the given instance from the underlying database.
+
+# Which method is used to save the state of the given instance from the underlying database?
+
+* **Session.save** saves the state of the given instance from the underlying database.
+
+# Which method is used to update the state of the given instance from the underlying database?
+
+* **Session.update** updates the state of the given instance from the underlying database.
+
+# Which method is used to save or update the state of the given instance from the underlying database?
+
+* **Session.saveOrUpdate** updates the state of the given instance from the underlying database.
+
+# What are persistent classes in hibernate?
+
+* Java classes whose objects or instances will be stored in database tables are called persistent classes in Hibernate.
+
+# What are the best practices  that Hibernate recommends for persistent classes?
+
+There are following main rules of persistent classes, however, none of these rules are hard requirements.
+* All Java classes that will be persisted than a default constructor.
+* All the classes should contain **ID** in order to allow easy **indentification** of your **objects** witnin Hibernate and the database.
+* This property maps to the **primary key column** of a database table.
+* All attributes that will be persisted should be declared **private** and have **getters** and **setters** methods defined in the **JavaBean** style.
+* A central feature of Hibernate, **proxies**, depends upon on the **persistent class** being either **non-final**, or the implementation of an **interface** that declares all **public methods**.
+*  All the classes that do not **extend or implement** some specialized **classes and interfaces** required by the EJB framework.
+
+# Where Object/relational mappings are defined in hibernate?
+
+* An **Object/relational mappings** are usually defined in an **XML document**.
+* This Mapping file instructs Hibernate how to map the defined class or classes to the database tables.
+* We should save the Mapping document in a file with the format below
+```
+<classname>.hbm.xml
+```
+# What is root node of hbm.xml?
+
+* The mapping document is an XML document having the **```<hibernate-mapping>```** as the root element which contains all the **```<class>```** elements.
+
+# Which elements of hbm.xml defines a specific mappings from a Java classes to the database tables?
+
+* The **```<class>```** elements are used to define
 
 
 
