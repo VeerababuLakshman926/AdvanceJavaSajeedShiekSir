@@ -372,7 +372,8 @@ while(it.hasNext()){
 Integer i = (Integer) it.next();
 --
 --
-}```**
+}
+```
 
 While working with Criteria object, if we want to read a result by executing some aggregate functions then also we need to take the support of Projections.  
 
@@ -386,7 +387,7 @@ plist.add(p1);
 plist.add(p2);
 plist.add(p3);
 crit.setProjection(plist);
-**List list = crit.list();**
+List list = crit.list();
 ```
 
 
