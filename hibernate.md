@@ -29,20 +29,37 @@
 # Hibernate
 
 # What is Hibernate?
-1. Hibernate is an open-source Objetc-Relational Mapping (ORM) framework for Java applications.
+1. Hibernate is an open-source Object-Relational Mapping (ORM) framework for Java applications.
 2. It simplifies the development of Java applications to interact with relational databases by mapping java objects to database tables and handling the underlying SQL queries and transactions.
+
+**Key features**  
+1. **ORM Framework :** Hibernate automates the mapping between Java classes and database tables, handling the conversion of data between java objects and SQL database tables.
+2. **Database independence :** Hibernate provides a level of abstraction over the database, allowing developers to switch between different databases with minimal changes to the code.
+3. **HQL (Hibernate Query Language) :** Hibernate introduce HQL, a powerful query language similar to SQL but oriented towards objects, allowing queries to be written in a way that is independent of the database schema.
+4. **Caching :** Hibernate supports both first-level(session) and second-level(SessionFactory) caching to improve application performance by reducing the number of database hits.
+5. **Lazy Loading :**  Hibernate supports lazy loading, meaning that associated entities are not loaded from the database until they are explicitly accessed, which helps in optimising performance.
+6. **Automatic Table Generation :** Hibernate can automatically generate database tables based on the entity mappings, which can simplify the database schema creation and management.
+7. **Transaction Management :** Hibernate integrates with JTA(Java Transaction API) to manage transactions and ensures data consistency and integrity.
+8. **Criteria Queries :** In addition to HQL, Hibernate provides a Criteria API for building queries in a programmatic and type-safe manner.
 
 # What is Session in Hibernate?
 1. In Hibernate, a **Session is a primary interface** for interacting with the database.
 2. It is an integral part of Hibernate architecture, providing a connection to the database.
+3. A sinlge-threaded, short-lived object that represents a connection between the Java application and the database.
+4. It provides methods to create, read, update and delete (CRUD) operations for persistent objects.
+5. A Session is a lightweight object that represents a single unit of work with the database.
+6. A session is used to manage the persistence of objects and handle transactions.
 
 # What is SessionFactory?
 1. In Hibernate, the **SessionFactory is an interface** responsible for creating and managing session objects.
-2. The primary role of **SessionFactory** is to create Session instances.
-3. A Session is a lightweight object that represents a single unit of work with the database.
+2. **SessionFactory** is a heavy weight, thread-safe object that provides and manages instances of Session.
+3. It is responsible for establishing connections to the database using configuration settings.
+4. Typically created once during application initialization and it acts as factory for Session object.
+5. It also caches metadata and optionally certain data, improving performance by reusing this information across multiple sessions.
+
 
 # What is new Configuration().buildSessionFactory(); ?
-The Statement **new Configuration().buildSessionFactory();** is used in Hibernate to create a SessionFactory object.  
+The Statement **new Configuration().configure().buildSessionFactory();** is used in Hibernate to create a SessionFactory object.  
 
 **new Configuration()**  
 This creates a **new instance** of the Configuration class, which is used to configure Hibernate.  
