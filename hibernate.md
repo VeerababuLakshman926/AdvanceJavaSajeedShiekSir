@@ -356,13 +356,13 @@ There are following main rules of persistent classes, however, none of these rul
 2. To perform **aggregate function** using **Criteria**
 
 ProjectionList is a optional when we used single property(single projection).   
-**```Projection p Projections.property("employeeSalary");```**
-**```crit.setProjection(p)```**
+**```Projection p Projections.property("employeeSalary");```**  
+**```crit.setProjection(p)```**  
 
 When we want to read a partial entity with a single property then we don't require a ProjectionList.  
 We can directly sent Projection object to Criteria.
 
-**```
+```
 Criteria crit = session.createCriteria("Employee.class");
 Projection p = Projections.property("employeeSalary");
 crit.setProjection(p);
