@@ -3281,7 +3281,7 @@ public class Client {
 }
 
 ```
-**Example - Feild Injection Annotation Based Configuration- Xml & AppConfig**  
+**Example - field Injection Annotation Based Configuration- Xml & AppConfig**  
 
 ```
 package com.dl.feildinjection_annotation;
@@ -3408,7 +3408,7 @@ public class Client {
 # Java Based Configuration
 * Setter Injection Java Based Annotation  Configuration
 * Constructor Injection Java Based Annotation  Configuration
-* Feild Injection Java Based Annotation  Configuration
+* field Injection Java Based Annotation  Configuration
 
 **Example - Setter Injection Java Based Annotation  Configuration**
 
@@ -3612,7 +3612,7 @@ public class Client {
 
 ```
 
-**Example - Feild Injection Java Based Annotation  Configuration**
+**Example - field Injection Java Based Annotation  Configuration**
 
 ```
 package com.dl.feildinjection.javabased;
